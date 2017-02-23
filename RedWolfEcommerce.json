@@ -1,0 +1,138 @@
+{
+  "luis_schema_version": "1.3.1",
+  "versionId": "0.1",
+  "name": "RedWolfEcommerce",
+  "desc": "",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "Help"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "OrderEnquiry"
+    },
+    {
+      "name": "ReportShippingProblems"
+    }
+  ],
+  "entities": [
+    {
+      "name": "OrderNumber"
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "bing_entities": [],
+  "actions": [
+    {
+      "actionName": "OrderEnquiry",
+      "intentName": "OrderEnquiry",
+      "channel": null,
+      "actionParameters": [
+        {
+          "parameterName": "OrderNumber",
+          "entityName": "OrderNumber",
+          "required": true,
+          "question": "Please kindly provide us with your order number?",
+          "phraseListFeatureName": null
+        }
+      ]
+    }
+  ],
+  "model_features": [],
+  "regex_features": [
+    {
+      "name": "OrderNumberRegex",
+      "pattern": "([1-9])",
+      "activated": true
+    }
+  ],
+  "utterances": [
+    {
+      "text": "where is my order?",
+      "intent": "OrderEnquiry",
+      "entities": []
+    },
+    {
+      "text": "what is the current status of my order?",
+      "intent": "OrderEnquiry",
+      "entities": []
+    },
+    {
+      "text": "when will my order arrive?",
+      "intent": "OrderEnquiry",
+      "entities": []
+    },
+    {
+      "text": "i would like to check my order",
+      "intent": "OrderEnquiry",
+      "entities": []
+    },
+    {
+      "text": "what's the status of my order?",
+      "intent": "OrderEnquiry",
+      "entities": []
+    },
+    {
+      "text": "i want to check my order, order number 1232133",
+      "intent": "OrderEnquiry",
+      "entities": [
+        {
+          "entity": "OrderNumber",
+          "startPos": 9,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "my order number is 213213, i want to check",
+      "intent": "OrderEnquiry",
+      "entities": [
+        {
+          "entity": "OrderNumber",
+          "startPos": 4,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "where is my order? my order number is 23248",
+      "intent": "OrderEnquiry",
+      "entities": [
+        {
+          "entity": "OrderNumber",
+          "startPos": 9,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "i would like to report a shipping problem",
+      "intent": "ReportShippingProblems",
+      "entities": []
+    },
+    {
+      "text": "i have a shipping problem",
+      "intent": "ReportShippingProblems",
+      "entities": []
+    },
+    {
+      "text": "i want to report a shipping problem",
+      "intent": "ReportShippingProblems",
+      "entities": []
+    },
+    {
+      "text": "i want to report an issue",
+      "intent": "ReportShippingProblems",
+      "entities": []
+    },
+    {
+      "text": "i need help",
+      "intent": "Help",
+      "entities": []
+    }
+  ]
+}
