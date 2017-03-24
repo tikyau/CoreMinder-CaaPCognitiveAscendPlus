@@ -1,0 +1,24 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/MasterPages/Default.master" Inherits="Site.MasterPages.PortalMasterPage" %>
+
+<asp:Content runat="server" ContentPlaceHolderID="Head">
+	<link rel="stylesheet" href="<%: Url.Content("~/Areas/Account/css/account.css") %>">
+	<asp:ContentPlaceHolder ID="Head" runat="server"/>
+</asp:Content>
+
+<asp:Content ContentPlaceHolderID="MainContent" runat="server">
+	<div class="row page-content">
+		<div class="col-md-4">
+			<div class="well">
+				<a href="https://en.gravatar.com/"><img src="<%: Url.UserImageUrl(Contact) %>" alt="" /></a>
+				&nbsp;
+				<%: Html.AttributeLiteral(Html.PortalUser(), "fullname") %>
+			</div>
+			<%: Html.WebLinksListGroup("Profile Navigation", showDescriptions: false, showImages: true, currentSiteMapNodeCssClass: "active") %>
+			<asp:ContentPlaceHolder ID="ProfileNavbar" runat="server"/>
+		</div>
+		<div class="col-md-8">
+			<asp:ContentPlaceHolder ID="PageCopy" runat="server"/>
+			<asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+		</div>
+	</div>
+</asp:Content>

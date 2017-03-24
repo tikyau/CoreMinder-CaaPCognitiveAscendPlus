@@ -1,0 +1,142 @@
+﻿@model Site.Areas.Setup.Models.SetupViewModel
+@{
+	var hideValidation = ViewData.ModelState.IsValid ? "hide" : null;
+}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width" />
+		<title>Adxstudio Portals Configuration</title>
+
+		@Styles.Render("//fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600,700")
+		@Styles.Render("~/css/bootstrap.min.css")
+		@Styles.Render("~/css/glyphicons-font-awesome-migrate.min.css")
+		@Styles.Render("~/Areas/setup/css/setup.css")
+
+	</head>
+
+	<body>
+
+		<header class="masthead">
+			<h1 class="container">
+				<a class="site-name" href="http://www.adxstudio.com" target="_blank">
+					<img src="@Url.Content("~/Areas/Setup/images/adx-weblogo-220-100-V2.png")" alt="" aria-hidden="true">
+					<strong>Adxstudio Portals</strong><br>for Microsoft Dynamics<sup><small>&reg;</small></sup> CRM
+				</a>
+			</h1>
+
+		</header>
+
+		<section class="container">
+
+			<p class="alert alert-info">
+				In order to proceed with installation of Adxstudio Portals, you must have an existing Microsoft Dynamics<sup><small>&reg;</small></sup> CRM instance with Adxstudio
+				Portals solution packages installed. For full requirements and details, please refer to our
+				<a href="http://community.adxstudio.com/products/adxstudio-portals/installation-operations-guide/installation-instructions/" target="_blank">installation instructions</a>.
+			</p>
+
+			<div class="row">
+				<div class="col-lg-8">
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h2 class="panel-title"><span id="cog" class="fa fa-cog"></span>&nbsp;&nbsp;Connect to Microsoft Dynamics<sup><small>&reg;</small></sup> CRM</h2>
+						</div>
+						<div class="panel-body">
+
+							@using (Html.BeginForm())
+							{
+								@Html.AntiForgeryToken()
+
+								<div class="alert alert-danger @hideValidation">
+									<ul id="errors-list">
+										@foreach (var modelError in ViewData.ModelState.SelectMany(pair => pair.Value.Errors, (pair, error) => new { pair.Key, Error = error }))
+										{
+											<li data-key="@modelError.Key">@modelError.Error.ErrorMessage</li>
+										}
+									</ul>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label" for="OrganizationServiceUrl">Dynamics CRM Organization Service URL</label>
+									<a tabindex="0" class="service-url-popover-link" role="button"><span class="fa fa-question-circle"></span><span class="sr-only">What is this?</span></a>
+									<div class="service-url-popover-content hidden">
+										<div class="service-url-popover small">
+											<strong>The <a href="http://msdn.microsoft.com/en-us/library/gg309401(v=crm.6).aspx#OrganizationService" target="_blank" tabindex="-1">CRM Organization Service URL</a> can be found in your Dynamics CRM instance under:</strong>
+											<ol class="breadcrumb">
+												<li>Settings</li>
+												<li>Customizations</li>
+												<li>Developer Resources</li>
+												<li>Service Endpoints</li>
+												<li>Organization Service</li>
+											</ol>
+										</div>
+									</div>
+									<div class="input-group">
+										<input type="url" id="OrganizationServiceUrl" name="OrganizationServiceUrl" class="form-control" placeholder="https://organization.api.crm.dynamics.com" data-url="@Url.Action("OrganizationConfiguration")" />
+										<span class="input-group-addon"><span class="addon">/XRMServices/2011/Organization.svc</span></span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label" for="Username">Dynamics CRM Username</label>
+									<input type="text" id="Username" name="Username" class="form-control" placeholder="username@contoso.onmicrosoft.com" />
+								</div>
+
+								<div class="form-group">
+									<label class="control-label" for="Password">Dynamics CRM Password</label>
+									<input type="password" id="Password" name="Password" class="form-control" data-url="@Url.Action("Websites")" />
+								</div>
+
+								<div class="form-group">
+									<label class="control-label" for="Website">Adxstudio Portals Website</label>
+									<select id="Website" name="Website" class="form-control"></select>
+									<span class="help-block"><span class="fa fa-info-circle"></span>&nbsp;The specified organization already has an active Website Binding for this site.</span>
+								</div>
+
+								<button type="button" class="btn btn-primary" id="checkConnection"><span class="fa fa-spinner fa-spin hidden"></span> Check Connection</button>
+								<button type="submit" class="btn btn-primary" id="submit"><span class="fa fa-spinner fa-spin hidden"></span> <span class="apply-label">Apply</span></button>
+
+							}
+
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h2 class="panel-title"><span class="fa fa-question"></span>&nbsp;&nbsp;Help and Documentation</h2>
+						</div>
+						<div class="list-group">
+							<a class="list-group-item" href="http://community.adxstudio.com/products/adxstudio-portals/installation-operations-guide/" target="_blank">
+								<div class="pull-right"><span class="fa fa-fw fa-external-link"></span></div>
+								Portals Installation Guide
+							</a>
+							<a class="list-group-item" href="http://community.adxstudio.com/products/adxstudio-portals/documentation/" target="_blank">
+								<div class="pull-right"><span class="fa fa-fw fa-external-link"></span></div>
+								Portals Documentation
+							</a>
+							<a class="list-group-item" href="http://community.adxstudio.com/products/adxstudio-portals/documentation/end-users-guide/content-management/websites/" target="_blank">
+								<div class="pull-right"><span class="fa fa-fw fa-external-link"></span></div>
+								Portals Websites
+							</a>
+							<a class="list-group-item" href="https://msdn.microsoft.com/en-us/library/gg309401(v=crm.6).aspx#OrganizationService" target="_blank">
+								<div class="pull-right"><span class="fa fa-fw fa-external-link"></span></div>
+								CRM Organization Service URL
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		@Scripts.Render("~/js/jquery-1.11.1.min.js")
+		@Scripts.Render("~/js/jqueryval.bundle.js")
+		@Scripts.Render("~/js/bootstrap.min.js")
+		@Scripts.Render("~/areas/setup/js/setup.js")
+
+	</body>
+	
+</html>
+<!-- Page OK -->

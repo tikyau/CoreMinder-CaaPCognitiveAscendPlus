@@ -1,0 +1,2 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="WebFormSupportRequestManualPaymentRequired.ascx.cs" Inherits="Site.Areas.HelpDesk.Controls.WebFormSupportRequestManualPaymentRequired" %>
+<adx:Snippet  runat="server" SnippetName="Help Desk Manual Payment Required Message" DefaultText="<h3>Support Plan Purchase Required</h3><p>Please contact sales to purchase a Support Plan.</p><p>Phone: 555-555-5555</p><p>Hours: Monday to Friday 9AM - 5PM CST</p>" Editable="true" EditType="html"/>

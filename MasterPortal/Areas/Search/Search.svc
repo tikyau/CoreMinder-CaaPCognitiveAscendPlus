@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Adxstudio.Xrm.GlobalSearch.Services.SearchService, Adxstudio.Xrm.GlobalSearch.Services" %>

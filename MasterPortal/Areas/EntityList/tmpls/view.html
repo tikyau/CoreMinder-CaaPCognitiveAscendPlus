@@ -1,0 +1,42 @@
+﻿<div class="page-header">
+	<div class="row">
+		<div class="col-sm-4 calendar-navs">
+			<div class="btn-group">
+				<button class="btn btn-default btn-sm" data-calendar-nav="prev">&lsaquo;</button>
+				<button class="btn btn-default btn-sm" data-calendar-nav="next">&rsaquo;</button>
+			</div>
+			<div class="btn-group">
+				<button class="btn btn-default btn-sm" data-calendar-nav="today">Today</button>
+			</div>
+		</div>
+		<div class="col-sm-4 calendar-title-container">
+			<h4 class="calendar-title"></h4>
+		</div>
+		<div class="col-sm-4 calendar-views">
+			<div class="btn-group">
+				<button class="btn btn-default btn-sm" data-calendar-view="year">Year</button>
+				<button class="btn btn-default btn-sm" data-calendar-view="month">Month</button>
+				<button class="btn btn-default btn-sm" data-calendar-view="week">Week</button>
+			</div>
+			<div class="btn-group calendar-downloads">
+				<a class="btn btn-default btn-sm"><span class="fa fa-download" title="Download this calendar" aria-hidden="true"></span></a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="calendar-error alert alert-block alert-danger">
+	<p>There was a problem loading data for this calendar.</p>
+</div>
+<% if (_small_) { %>
+<div class="row">
+	<div class="col-sm-6">
+		<div class="event-list"></div>
+	</div>
+	<div class="col-sm-6">
+		<div class="calendar"></div>
+	</div>
+</div>
+	
+<% } else { %>
+	<div class="calendar"></div>
+<% } %>

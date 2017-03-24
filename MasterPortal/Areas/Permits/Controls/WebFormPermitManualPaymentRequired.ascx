@@ -1,0 +1,2 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="WebFormPermitManualPaymentRequired.ascx.cs" Inherits="Site.Areas.Permits.Controls.WebFormPermitManualPaymentRequired" %>
+<adx:Snippet  runat="server" SnippetName="Permit Manual Payment Required Message" DefaultText="<h3>Permit Fee Required</h3><p>Please contact support to pay for this application.</p><p>Phone: 555-555-5555</p><p>Hours: Monday to Friday 9AM - 5PM CST</p>" Editable="true" EditType="html"/>

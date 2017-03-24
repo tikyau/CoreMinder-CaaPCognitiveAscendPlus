@@ -1,0 +1,25 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/MasterPages/Default.master" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<asp:Content runat="server" ContentPlaceHolderID="Head">
+	<link rel="stylesheet" href="<%: Url.Content("~/Areas/Account/css/account.css") %>">
+	<asp:ContentPlaceHolder ID="Head" runat="server"/>
+</asp:Content>
+
+<asp:Content runat="server" ContentPlaceHolderID="ContentHeader">
+	<div class="page-heading">
+		<div class="container">
+			<asp:ContentPlaceHolder ID="PageHeader" runat="server">
+				<div class="page-header">
+					<h1><%: Html.TextAttribute("adx_name") %></h1>
+				</div>
+			</asp:ContentPlaceHolder>
+		</div>
+	</div>
+</asp:Content>
+
+<asp:Content runat="server" ContentPlaceHolderID="MainContent">
+	<asp:ContentPlaceHolder ID="PageCopy" runat="server">
+		<%= Html.HtmlAttribute("adx_copy", cssClass: "page-copy") %>
+	</asp:ContentPlaceHolder>
+	<asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+</asp:Content>
