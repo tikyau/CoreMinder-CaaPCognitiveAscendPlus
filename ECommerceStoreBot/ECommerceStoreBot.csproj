@@ -126,6 +126,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="CustomerDialog.cs" />
+    <Compile Include="MailHandler.ashx.cs">
+      <DependentUpon>MailHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Salesorder.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -134,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="MailHandler.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
