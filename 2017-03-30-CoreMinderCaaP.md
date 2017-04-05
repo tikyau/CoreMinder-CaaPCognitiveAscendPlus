@@ -243,7 +243,9 @@ Since CoreMnder CRM backend is capable to assigin the Human Agent to follow up t
 **FAQ Handling**
 Since the eCommercise site sample taken from the CoreMinder client has some overlapped of its FAQ and LUIS intent e.g. get order status.  We decide to separate the FAQ that use QnAMaker from the LUIS Bot and and renew the FAQ tab with QnAMaker bot embeded.
 
-![screen shoot of renew FAQ page with QnAMaker ] ({{site.baseurl}}/images/CoreMinderImages/xxxxxxxxxxxxxxxxxxxxxxxxx.JPG}})
+![screen shoot of renew FAQ page with QnAMaker ] ({{site.baseurl}}/images/CoreMinderImages/QnA_Portal.JPG}})
+![screen shoot of renew FAQ page with QnAMaker ] ({{site.baseurl}}/images/CoreMinderImages/QnA_QnA_Azure.JPG}})
+![screen shoot of renew FAQ page with QnAMaker ] ({{site.baseurl}}/images/CoreMinderImages/QnA_Azure_TestEnv.JPG}})
 
 **Product recommendation**
 
