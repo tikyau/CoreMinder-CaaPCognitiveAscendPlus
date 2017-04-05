@@ -41,7 +41,7 @@ namespace ECommerceStoreBot
             //
 
             userData.SetProperty("userId", UserEmail);
-            userData.SetProperty("userName", password);
+            userData.SetProperty("userName", UserEmail);
             userData.SetProperty("userChannel", activity.ChannelId);
             userData.SetProperty("userMessage", activity.Text);
 

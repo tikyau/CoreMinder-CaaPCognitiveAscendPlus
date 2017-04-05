@@ -12,6 +12,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Script.Serialization;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ECommerceStoreBot
@@ -38,12 +39,12 @@ namespace ECommerceStoreBot
         [LuisIntent("OrderEnquiry")]
         //public async Task OrderEnquiry(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult result)
         public async Task OrderEnquiry(IDialogContext context, LuisResult result)
-        {     
+        {
             //Prompt for missing order number  
             while (result.Entities.Count < 1) {
                 new PromptDialog.PromptString("What is the order number?", "Please enter the order number", attempts: 3);
             }
-            Debug.WriteLine("Order Number: " +  result.Entities[0].Entity);
+            Debug.WriteLine("Order Number: " + result.Entities[0].Entity);
             await context.PostAsync($"Please wait a moment, we are searching your order '{result.Entities[0].Entity}'");
             /*E.g. www.coreminder.com:9998/getorderstatus?orderid=1701 will return
             "salesorders": [
@@ -55,19 +56,24 @@ namespace ECommerceStoreBot
             ]*/
             Debug.WriteLine("checking CRM.......");
             //
-            //replacing with AzFn call...........
+            //replacing the existing CRM web api to AzFn call...........
             //
-            string baseUrl = "http://www.coreminder.com:9998/getorderstatus";
+            //string baseUrl = "http://www.coreminder.com:9998/getorderstatus";
+            string baseUrl = "https://coremindercrmazfn.azurewebsites.net/api/getOrderStatus?code=lNsp7nd1cjVEdIFy4Qx5afLJGYKzo4G6OVHagTnpZ4F83OeV9OElJQ==";
             string prodid = result.Entities[0].Entity;
             var request = (HttpWebRequest)WebRequest.Create(baseUrl);
-            var postData = string.Format("orderid={0}", prodid);
-            var data = Encoding.UTF8.GetBytes(postData);
+            //change to json format
+            request.ContentType = "application/json";
             request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = data.Length;
-            using (var stream = request.GetRequestStream())
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
-                stream.Write(data, 0, data.Length);
+                string json = new JavaScriptSerializer().Serialize(new
+                {
+                    orderID = prodid
+                });
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
             }
             var response = (HttpWebResponse)request.GetResponse();
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();

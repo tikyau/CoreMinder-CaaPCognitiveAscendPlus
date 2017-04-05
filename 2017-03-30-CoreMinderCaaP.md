@@ -35,7 +35,7 @@ Problem statement:
 
 **Scenario**
 
-Currently **CoreMinder Chat Management** provide human agent to interact/respond to cusotmer enquires via an ASP.Net web portal which connecting to the backend Dynamic CRM (on-premises).  CoreMinder like to handle the customer queries, FAQ using a ChatBot which directly connect to their Dynamic CRM (on-premises) or in future, Dynamics 365 (online).
+Currently **CoreMinder Chat Management** provide human agent to interact/respond to cusotmer enquires via an ASP.Net web portal which connecting to the backend Dynamic CRM (on-premises).  CoreMinder like to handle the customer queries, FAQ using a ChatBot which directly connect to their Dynamic CRM (on-premises) or Dynamics 365 (online) in future.
 
 From our solution architecture whiteboard discussion, we start with the BOT using BotFramework as our building block and try to leverage the existing CRM Web API (Dynamic CRM's low-level interaction and wrapper methods) running on permises that handle the CRM communication for the Bot/CRM connection, but we will migrate thier CRM Web API to Azure Function to ehance its performance and better dynamic scaling. To preserve their existing close customer engagement experience, the chat bot will use LUIS for natural language experience. And we'll also use QnAmaker for most common FAQ, and Recommendation API for item-to-item recommendation instead of existing human sale agent to recommend based on their CRM total sale records.
 
@@ -58,13 +58,13 @@ We start with defining the LUIS intents and breaking into 3 categories:
  2. Create a new case in CRM(e.g. reporting issue, like shipping problem)
  3. Handling most common FAQ using QnAMaker
 
-And we 1st discover few of the FAQ have some overlap of the LUIS intent e.g. order status enquiry.  To avoid the confusion to LUIS, we decide to separate the FAQ from the LUIS bot and emneded in an existing FAQ page instead.
+And we 1st discover few of the FAQ have some overlapped of the LUIS intent e.g. order status enquiry.  To avoid the confusion to LUIS, we decide to separate the FAQ from the LUIS bot and emneded in an existing FAQ page instead.
 
 ![Here's the simple LUIS]({{site.baseurl}}/images/CoreMinderImages/LUIS.JPG)
 
 **Bot Implementation**
 
-Since its an ecommerce site, instead of using the Sign-In card inside the bot, we will leverage the ecommerce web portal(SSL protected) memeber login procedure than extract the user name from email as an identifier (User ID) for BoT/CRM communcation. And store its into the user data store below before starting the luis dialog, "CustomerDialog".  In production, we'll need to ensure it'll successfully sign on before assign the UserEmail as the userId.
+Since its an ecommerce site, instead of using the Sign-In card inside the bot, we will leverage the ecommerce web portal(SSL protected) memeber login procedure than extract the user name from email logon as an identifier (User ID) for BoT/CRM communcation. And store its into the user data store below before starting the luis dialog, "CustomerDialog".  In production, we'll need to ensure it'll successfully sign on before assign the UserEmail as the userId.
 
 This is the sample code is storing the bot state with user email as the user identifier.
 ```
@@ -97,30 +97,33 @@ Once the user  state been created, we can now start the luis dialog.
 
 Here's the sample code to process the order status enquiry from LUIS intent.
 ```
-public class CustomerDialog : LuisDialog<object>
-    {
-        [LuisIntent("OrderEnquiry")]
+ [LuisIntent("OrderEnquiry")]
+        //public async Task OrderEnquiry(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult result)
         public async Task OrderEnquiry(IDialogContext context, LuisResult result)
-        {     
+        {
             //Prompt for missing order number  
             while (result.Entities.Count < 1) {
                 new PromptDialog.PromptString("What is the order number?", "Please enter the order number", attempts: 3);
             }
-            Debug.WriteLine("Order Number: ", result.Entities[0].Entity);
+            Debug.WriteLine("Order Number: " + result.Entities[0].Entity);
             await context.PostAsync($"Please wait a moment, we are searching your order '{result.Entities[0].Entity}'");
-            
-            //Calling the Dynamic CRM AzureFunction to retrieve the order status
-            string baseUrl = "https://coremindercrmazfn.azurewebsites.net/api/getOrderStatus?code=IkZbgayre6Bi/RKMW2Itacyb/FZ3wRv3jdzVYqIgTV3GHlQfQo3MPg==";
+            Debug.WriteLine("checking CRM.......");
+            //
+            //replacing the existing CRM web api to AzFn call...........
+            string baseUrl = "https://coremindercrmazfn.azurewebsites.net/api/getOrderStatus?code=lNsp7nd1cjVEdIFy4Qx5afLJGYKzo4G6OVHagTnpZ4F83OeV9OElJQ==";
             string prodid = result.Entities[0].Entity;
             var request = (HttpWebRequest)WebRequest.Create(baseUrl);
-            var postData = string.Format("orderid={0}", prodid);
-            var data = Encoding.UTF8.GetBytes(postData);
+            request.ContentType = "application/json";
             request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = data.Length;
-            using (var stream = request.GetRequestStream())
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
-                stream.Write(data, 0, data.Length);
+                string json = new JavaScriptSerializer().Serialize(new
+                {
+                    orderID = prodid
+                });
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
             }
             var response = (HttpWebResponse)request.GetResponse();
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
@@ -131,39 +134,77 @@ public class CustomerDialog : LuisDialog<object>
             if (r.salesorders.Count != 0)
             {
                 var replyToConversation = context.MakeMessage();
+                List<CardImage> cardImages = new List<CardImage>();
+                //the products associated with the order number return from CRM........
+                cardImages.Add(new CardImage(url: "https://rfpicdemo.blob.core.windows.net/rfdemo/AS-APRON-1L.jpg"));
                 if (r.salesorders[0].new_shippingstatus.ToString() == "Pending")
                 {
                     HeroCard replyCard = new HeroCard()
                     {
                         Title = "Order Status",
+                        Images = cardImages,
                         Subtitle = "Status of your order " + result.Entities[0].Entity + " is " + r.salesorders[0].new_shippingstatus.ToString(),
                         Text = "Your order will be shipped soon. Notification email will be sent to you once shipped."
                     };
                     replyToConversation.Attachments.Add(replyCard.ToAttachment());
-                } else {.........
+                }
+                else
+                {
+                    HeroCard replyCard = new HeroCard()
+                    {
+                        Title = "Order Status",
+                        Images = cardImages,
+                        Subtitle = $"Status of your order {result.Entities[0].Entity} is {r.salesorders[0].new_shippingstatus.ToString()}.",
+                        Text = "Your order is shipped. Please check your email."
+                    };
+                    replyToConversation.Attachments.Add(replyCard.ToAttachment());
+                }
+                await context.PostAsync(replyToConversation);
+            }
+            else
+            {
+                var message1 = context.MakeMessage();
+                message1.Text = "Cannot find order";
+                await context.PostAsync(message1);
+            }
+        }
 ```
 
-For the above CRM connection, we did play around logicApp's Dynamic CRM 365 (on-line) conector initially but find that its always use another cached authencicated token if the PC previously authenicated another credential.  Thus its very confusing when we 1st treid to add the CoreMinderCRM URL as its always taken another credential
+For the above CRM connection, we did play around logicApp's Dynamic CRM 365 (on-line) connector initially but find that logicApp always use another cached authencicated token if the PC previously other credential.  Thus its very confusing when we 1st tried to add the CoreMinderCRM URL as its always taken another credential.
 
 ![LogicApp Logon Fail] ({{site.baseurl}}/images/CoreMinderImages/LogicAppCRMLogOnFailAsUsingDXCRMNoCRMUrlEnterOption.JPG}})
 
-So we decide to use Azure Function and using Dynamic CRM's low-level interaction and wrapper methods instead which can work with both Dynamic 365 on permises and on-line.  But when migrating the code, it take quite an effort to figure out all the nuget package dependencies and also specific version. E.g. you need to add additional "Microsoft.IdentityModel.Clients.ActiveDirectory" nuget package cause our scenario is connecting to on-permises Dynamic 365 using Active Directory as Auth Type which you would not need to if using the XRM dll etc.  During the hack, we try to completely move all the CRM/XRM dlls by calling [**external assemblies reference**](https://docs.microsoft.com/en-us/azure/azure-functions/functions-reference-csharp#referencing-external-assemblies) in Azure Functions but got complaint with "Not Found". so we focus back on resolivng the nuget packages and eventually got all dependencies sort out and aldo help from adding [**TraceListener**](http://crmtipoftheday.com/2017/01/05/tracing-with-xrm-tooling-in-azure-functions/) for the XRM connector logs on Azure Function.
+Anyway, we decided to use Azure Function with Dynamic CRM's low-level interaction and wrapper methods instead as its can work with both Dynamic 365 on permises and on-line.  But when migrating the code, it take quite an effort to figure out all the nuget package dependencies and also specific version. E.g. you need to add additional "Microsoft.IdentityModel.Clients.ActiveDirectory" nuget package cause our scenario is connecting to on-permises Dynamic 365 which use Active Directory as Auth Type.  And you would not need to, if using the XRM dll etc.  During the hack, we try to completely move all the CRM/XRM dlls by [**referencing external assemblies **](https://docs.microsoft.com/en-us/azure/azure-functions/functions-reference-csharp#referencing-external-assemblies) in Azure Functions but got complaint with "Not Found". So we focus back on resolivng the nuget packages and eventually got all dependencies sort out and also help from adding [**TraceListener**](http://crmtipoftheday.com/2017/01/05/tracing-with-xrm-tooling-in-azure-functions/) for the XRM connector logs on Azure Function.  In additon, we also observered lately that Azure Function URL will return "404" as its somehow not able to take the default Host Keys?  But if replacing the masterhost key will get it work! Need Azure Function product team to investigate.
 
-This is the Azure Function that connect to Dynamic CRM to retrive the order status
+This is the Azure Function that connect to Dynamic CRM (on-permises) to retrive the order status
 ```
 #r "System.Data"
+#load ".\ToolingListener.csx"
 
+using System;
+using System.Data;
 using System.Net;
+using System.Diagnostics;
+using Newtonsoft.Json;
+
 using Microsoft.Crm.Sdk;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using Microsoft.Xrm.Client;
+using Microsoft.Xrm.Client.Services;
 using Microsoft.Xrm.Tooling.Connector;
-using System.Data;
-using Newtonsoft.Json;
+
+//using Microsoft.Xrm.Tooling.CrmConnectControl;
+
+using Microsoft.Xrm.Sdk.Deployment;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
     log.Info("C# HTTP trigger function processed a request.");
+
+    TraceControlSettings.TraceLevel = SourceLevels.All;
+    TraceControlSettings.AddTraceListener(new Toolinglistener("Microsoft.Xrm.Tooling.Connector", log));
 
     // parse query parameter
     string orderID = req.GetQueryNameValuePairs()
@@ -177,16 +218,23 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     orderID = orderID ?? data?.orderID;
     string orderStatus = "no order status";
 
-    //fill the crm logic
-    string connectionString = "Url=https://coreloy.coreminder.com:10443/coreloy; Domain=bechelon; Username=bechelon'\'john.cheng; Password=bs!9!dga; authtype=AD";
+    //to get rid of the SSL trust connection issue....
+    System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+    //Fill the crm logic
+    //CoreMinder Dynamic CRM On-premises with provided user credentials
+    string connectionString = System.Environment.GetEnvironmentVariable("CoreMinderCRMConnectionString");
     Dictionary<string, object> result = new Dictionary<string, object>();
     string json = "";
-    CrmServiceClient crmSvc = new Microsoft.Xrm.Tooling.Connector.CrmServiceClient(connectionString);
+    CrmServiceClient crmSvc = new CrmServiceClient(connectionString);
+    log.Info("crmSvc : " + crmSvc );
+
+    // Cast the proxy client to the IOrganizationService interface.
     IOrganizationService _orgService = (IOrganizationService)crmSvc.OrganizationWebProxyClient != null ? (IOrganizationService)crmSvc.OrganizationWebProxyClient : (IOrganizationService)crmSvc.OrganizationServiceProxy;
+    log.Info("_orgService : " + _orgService );
+
     if (crmSvc != null & orderID != null & _orgService != null) {
         log.Info("CRM connected.....");
         //get the oder status..........
-        orderStatus = "This is the status";
         DataSet dataSet = new DataSet("salesorder");
         DataTable table = new DataTable("salesorders");
         DataColumn col_order_id = new DataColumn("processid");            
@@ -201,7 +249,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         qe.ColumnSet = new ColumnSet("ordernumber", "new_shippingstatus", "name");
         qe.Criteria.AddCondition("name", ConditionOperator.Equal, orderID);
         EntityCollection results = _orgService.RetrieveMultiple(qe);
+
         log.Info("after results.....");
+
         if (results.Entities != null)
         {
             foreach (Entity order in results.Entities)
@@ -218,6 +268,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         json = JsonConvert.SerializeObject(dataSet, Formatting.Indented);
         //Response.ContentType = "application/json; charset=utf-8";
         //Response.Write(json);
+        orderStatus = json.ToString();
     }
     
     return orderID == null
@@ -226,7 +277,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 }
 ```
 
-One suggestion we've is perhaps the Azure Function can have a freindly user interface to download the nuget package in C# as currently the way to specify the nuget package in the project.json file is too manual. In additon, if there's Dynamic CRM connector on Azure function compatiable with [**CrmServiceClient**](https://msdn.microsoft.com/en-us/library/dn688177.aspx_would make its much easier.
+One suggestion we've is perhaps the Azure Function can have a friendly user interface to download the nuget package as currently the way to find and specify the nuget package in the project.json file is too manual. In additon, if there's Dynamic CRM buitl-in connector on Azure function equivalent with [**CrmServiceClient**](https://msdn.microsoft.com/en-us/library/dn688177.aspx_would will make its much easier.
 
 ![screen shoot of the Bot in getting the order status successfulyl from CRM ] ({{site.baseurl}}/images/CoreMinderImages/xxxxxxxxxxxxxxxxxxxxxxxxx.JPG}})
 
