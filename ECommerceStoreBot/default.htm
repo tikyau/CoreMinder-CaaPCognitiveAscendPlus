@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.12/js/adal.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script>
+        var ADAL = new AuthenticationContext({
+            instance: 'https://login.microsoftonline.com/',
+            tenant: 'common', //COMMON OR YOUR TENANT ID
+
+            clientId: '9cc12bba-a8c4-4f5b-a18f-fc38e3a7724d', //This is your client ID
+            redirectUri: 'http://localhost:3979/api/OAuthCallback', //This is your redirect URI
+
+            callback: userSignedIn,
+            popUp: true
+        });
+
+        function signIn() {
+            ADAL.login();
+        }
+
+        function userSignedIn(err, token) {
+            console.log('userSignedIn called');
+            if (!err) {
+                console.log("token: " + token);
+                showWelcomeMessage();
+            }
+            else {
+                console.error("error: " + err);
+            }
+        }
+        function loadJsonData() {
+            var postdata = JSON.stringify(
+                {
+                    "From": document.getElementById("TxtFrom").value,
+                    "To": document.getElementById("TxtTo").value,
+                });
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: "MailHandler.ashx",
+                    cache: false,
+                    data: postdata,
+                    dataType: "json",
+                    success: getSuccess,
+                    error: getFail
+                });
+            } catch (e) {
+                alert(e);
+            }
+            function getSuccess(data, textStatus, jqXHR) {
+                alert(data.Response);
+            };
+            function getFail(jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.status);
+            };
+        };
+        function showWelcomeMessage() {
+            var user = ADAL.getCachedUser();
+            var divWelcome = document.getElementById('WelcomeMessage');
+            divWelcome.innerHTML = "Welcome " + user.profile.name;
+        }
+
+    </script>
+</head>
+<body style="font-family:'Segoe UI'">
+    <h1>ECommerceStoreBot</h1>
+    <p>Describe your bot here and your terms of use etc.</p>
+    <p>Visit <a href="https://www.botframework.com/">Bot Framework</a> to register your bot. When you register it, remember to set your bot's endpoint to <pre>https://<i>your_bots_hostname</i>/api/messages</pre></p>
+    <button id="SignIn" onclick="signIn()">Sign In</button>
+    <h4 id="WelcomeMessage"></h4>
+
+    <table>
+        <tr>
+            <td><label id="From" />Please Enter your Email : </td>
+            <td><input id="TxtFrom"></td>
+        </tr>
+        <tr>
+            <td><label id="To" />Please Enter Your Password</td>
+            <td><input type="password" id="TxtTo" required="required"></td>
+        </tr>
+        <tr>
+            <td />
+            <td style="align-content:flex-end">
+                <button onclick="loadJsonData();">Login</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -8,9 +8,14 @@ using System.Web.Http.Description;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Web;
 
 namespace ECommerceStoreBot
 {
+
+
+
+
     [BotAuthentication]
     public class MessagesController : ApiController
     {
@@ -20,6 +25,9 @@ namespace ECommerceStoreBot
         /// </summary>
         private StateClient stateClient;
         public BotData userData;
+        public static string UserEmail { get; set; }
+        public static string password { get; set; }
+
 
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
@@ -27,19 +35,22 @@ namespace ECommerceStoreBot
             //initialize the user data store
             stateClient = activity.GetStateClient();
             userData = await stateClient.BotState.GetUserDataAsync(activity.ChannelId, activity.From.Id);
+
             //
             //Tom, Delon: If we can get user sign in from web, we can replace the user ID/Name below from the activitiy
             //
-            userData.SetProperty("userId", activity.From.Id);
-            userData.SetProperty("userName", activity.From.Name);
+
+            userData.SetProperty("userId", UserEmail);
+            userData.SetProperty("userName", password);
             userData.SetProperty("userChannel", activity.ChannelId);
             userData.SetProperty("userMessage", activity.Text);
+
             await stateClient.BotState.SetUserDataAsync(activity.ChannelId, activity.From.Id, userData);
             //Debug.WriteLine("Channel: " + activity.ChannelId + "UserID :" + activity.From.Id + "userData :" + userData.Data.ToString());
 
             if (activity.Type == ActivityTypes.Message)
             {
-                await Microsoft.Bot.Builder.Dialogs.Conversation.SendAsync(activity, () => new CustomerDialog());       
+                await Microsoft.Bot.Builder.Dialogs.Conversation.SendAsync(activity, () => new CustomerDialog());
             }
             else
             {
