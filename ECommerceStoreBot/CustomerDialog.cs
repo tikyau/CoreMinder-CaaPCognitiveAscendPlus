@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -40,6 +41,8 @@ namespace ECommerceStoreBot
         //public async Task OrderEnquiry(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult result)
         public async Task OrderEnquiry(IDialogContext context, LuisResult result)
         {
+            Debug.WriteLine(context.UserData.Get<string>("userMessage"));
+
             //Prompt for missing order number  
             while (result.Entities.Count < 1) {
                 new PromptDialog.PromptString("What is the order number?", "Please enter the order number", attempts: 3);
@@ -77,8 +80,18 @@ namespace ECommerceStoreBot
             }
             var response = (HttpWebResponse)request.GetResponse();
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-
+            //somehow the newtonsoft.json nuget pkg seems not compaitable with the newtonsoft 8.0 pkg
+            //so we manually remove these escape characters
+            responseString = responseString.Replace("\\\"", "\"");
+            responseString = responseString.Replace("\\r", "\r");
+            responseString = responseString.Replace("\\n", "\n");
+            string removestring = "\"";
+            int index = responseString.IndexOf(removestring);
+            responseString = (index < 0) ? responseString : responseString.Remove(index, removestring.Length);
+            responseString = responseString.Remove(responseString.Length - 1);
+            Debug.WriteLine("Json string: " + responseString);
             // TODO: Parse the responseString to json object
+
             RootObject r = JsonConvert.DeserializeObject<RootObject>(responseString);
             Debug.WriteLine("return from CRM......");
             if (r.salesorders.Count != 0)
@@ -86,7 +99,9 @@ namespace ECommerceStoreBot
                 var replyToConversation = context.MakeMessage();
                 List<CardImage> cardImages = new List<CardImage>();
                 //the products associated with the order number return from CRM........
-                cardImages.Add(new CardImage(url: "https://rfpicdemo.blob.core.windows.net/rfdemo/AS-APRON-1L.jpg"));
+                //cardImages.Add(new CardImage(url: "https://rfpicdemo.blob.core.windows.net/rfdemo/AS-APRON-1L.jpg"));
+                //Note: dummy card images for POC only, will replaced by the result from CRM in production
+                cardImages.Add(new CardImage(url: "http://oscommerce.bechelon.com:9016/_entity/salesliteratureitem/b778a852-d503-e711-80ca-00155d120a00/94cbdb0b-da9c-4b5a-86ba-75fd01dd2a29"));
                 if (r.salesorders[0].new_shippingstatus.ToString() == "Pending")
                 {
                     HeroCard replyCard = new HeroCard()

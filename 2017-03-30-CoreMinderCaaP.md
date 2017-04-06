@@ -22,7 +22,7 @@ Location: Hong Kong
 -------------------
 Description:
 ------------
-[**CoreMinder**](http://www.coreminder.com/chat.html) is Microsoft HK gold partner in providing Dynamic CRM and O365 enterprise & e-commerce integrated solutions to small and medium size companies.  Its Chat management is an add-on solution for retailers, which integrates Dynamics CRM and social app (FaceBook, WeChat). It allows retailers' customers to communicate with the Human Sale Agent and their CRM system at the back-end will capture all these conversation, and therefore the cases can be followed up closely. They see the opportunity to adopt Micrsoft BotFramework, Cognitive Services to provide 24x7 instant customer respond and product recommendation to enhace their Dynamic CRM platfrom solution.
+[**CoreMinder**](http://www.coreminder.com/chat.html) is Microsoft HK gold partner in providing Dynamic CRM and O365 enterprise & e-commerce integrated solutions to small and medium size companies.  Its Chat management is an add-on solution for retailers, which integrates Dynamics CRM and social app (FaceBook, WeChat). It allows retailers' customers to communicate with the Human Sale Agent and their CRM system at the back-end, and therefore the cases can be followed up closely. They see the opportunity to adopt Micrsoft BotFramework, Cognitive Services to provide 24x7 instant customer respond and product recommendation to enhace their Dynamic CRM platform value.
 
 This is the team that was involved with the project:
 -   William Dam – Microsoft, Technical Evangelist
@@ -35,7 +35,7 @@ Problem statement:
 
 **Scenario**
 
-Currently **CoreMinder Chat Management** provide human agent to interact/respond to cusotmer enquires via an ASP.Net web portal which connecting to the backend Dynamic CRM (on-premises).  CoreMinder like to handle the customer queries, FAQ using a ChatBot which directly connect to their Dynamic CRM (on-premises) or Dynamics 365 (online) in future.
+Currently **CoreMinder Chat Management** allow human agent to interact/respond to cusotmer enquires raised from the social channels via an CRM Web API (ASP.Net) gateway which connecting to a backend Dynamic CRM (both are on-premises).  CoreMinder like to offload the Sale Agent workload by handling majority of the customer queries, FAQ using a ChatBot which need to be directly connected to their Dynamic CRM (on-premises) or Dynamics 365 (online) in future.
 
 From our solution architecture whiteboard discussion, we start with the BOT using BotFramework as our building block and try to leverage the existing CRM Web API (Dynamic CRM's low-level interaction and wrapper methods) running on permises that handle the CRM communication for the Bot/CRM connection, but we will migrate thier CRM Web API to Azure Function to ehance its performance and better dynamic scaling. To preserve their existing close customer engagement experience, the chat bot will use LUIS for natural language experience. And we'll also use QnAmaker for most common FAQ, and Recommendation API for item-to-item recommendation instead of existing human sale agent to recommend based on their CRM total sale records.
 
@@ -43,7 +43,7 @@ Key technologies:
 - BotFramework, QnAMaker
 - Cognitive Services: LUIS, Recommendation API
 - Web Service: Azure Function, ASP.Net
-- Dynamic CRM
+- Dynamic CRM 
 - Client: webchat, Skype
 
 ![Whiteboard Architecture]({{site.baseurl}}/images/CoreMinderImages/Whiteboard_Coreminder.JPG)
@@ -93,7 +93,7 @@ public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         }
 ```
 
-Once the user  state been created, we can now start the luis dialog.
+Once the user state been created, we can now start the luis dialog.
 
 Here's the sample code to process the order status enquiry from LUIS intent.
 ```
@@ -174,7 +174,13 @@ For the above CRM connection, we did play around logicApp's Dynamic CRM 365 (on-
 
 ![LogicApp Logon Fail] ({{site.baseurl}}/images/CoreMinderImages/LogicAppCRMLogOnFailAsUsingDXCRMNoCRMUrlEnterOption.JPG}})
 
-Anyway, we decided to use Azure Function with Dynamic CRM's low-level interaction and wrapper methods instead as its can work with both Dynamic 365 on permises and on-line.  But when migrating the code, it take quite an effort to figure out all the nuget package dependencies and also specific version. E.g. you need to add additional "Microsoft.IdentityModel.Clients.ActiveDirectory" nuget package cause our scenario is connecting to on-permises Dynamic 365 which use Active Directory as Auth Type.  And you would not need to, if using the XRM dll etc.  During the hack, we try to completely move all the CRM/XRM dlls by [**referencing external assemblies **](https://docs.microsoft.com/en-us/azure/azure-functions/functions-reference-csharp#referencing-external-assemblies) in Azure Functions but got complaint with "Not Found". So we focus back on resolivng the nuget packages and eventually got all dependencies sort out and also help from adding [**TraceListener**](http://crmtipoftheday.com/2017/01/05/tracing-with-xrm-tooling-in-azure-functions/) for the XRM connector logs on Azure Function.  In additon, we also observered lately that Azure Function URL will return "404" as its somehow not able to take the default Host Keys?  But if replacing the masterhost key will get it work! Need Azure Function product team to investigate.
+Anyway, we decided to use Azure Function with Dynamic CRM's low-level interaction and wrapper methods instead as its can work with both Dynamic 365 on permises and on-line.  But when migrating the XRM SDK code, it take quite an effort to figure out all the correct nuget package dependencies and also specific version in order to get its compiled. Druing the hack, there're few times that we experience Azure Function are cached no matter what changes putting in but will resume normal sometime after?  This is another reason it take us longer time to debug/change.
+
+Alternatively, we did also try to completely move all the CRM/XRM dlls by [**referencing external assemblies **](https://docs.microsoft.com/en-us/azure/azure-functions/functions-reference-csharp#referencing-external-assemblies) in Azure Functions but got complaint with the specific external assemblies "Not Found", likely not able to figure out the path.  So we focus back on resolivng the nuget packages and eventually got all dependencies sort out.
+
+One recommendation to CRM developer if working on Azure Function, you might find adding this [**TraceListener**](http://crmtipoftheday.com/2017/01/05/tracing-with-xrm-tooling-in-azure-functions/) helpful as we use to capture XRM connector logs on Aure Function to help out troubleshooting.
+
+In additon, on April 5th I also observered the Azure Function URL will return "404" as its somehow not able to take the default Host Keys?  But if replacing the master host key will get it work! And the problem goes away.  We like to feed this back to product team and hope continut to imporve the quatlity of its delivery.
 
 This is the Azure Function that connect to Dynamic CRM (on-permises) to retrive the order status
 ```
@@ -190,11 +196,7 @@ using Newtonsoft.Json;
 using Microsoft.Crm.Sdk;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
-using Microsoft.Xrm.Client;
-using Microsoft.Xrm.Client.Services;
 using Microsoft.Xrm.Tooling.Connector;
-
-//using Microsoft.Xrm.Tooling.CrmConnectControl;
 
 using Microsoft.Xrm.Sdk.Deployment;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
@@ -218,8 +220,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     orderID = orderID ?? data?.orderID;
     string orderStatus = "no order status";
 
-    //to get rid of the SSL trust connection issue....
+    //temporary get rid of the SSL trust connection issue due to this CRM using self signed cert....
     System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+
     //Fill the crm logic
     //CoreMinder Dynamic CRM On-premises with provided user credentials
     string connectionString = System.Environment.GetEnvironmentVariable("CoreMinderCRMConnectionString");
@@ -250,8 +253,6 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         qe.Criteria.AddCondition("name", ConditionOperator.Equal, orderID);
         EntityCollection results = _orgService.RetrieveMultiple(qe);
 
-        log.Info("after results.....");
-
         if (results.Entities != null)
         {
             foreach (Entity order in results.Entities)
@@ -266,18 +267,17 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         }
 
         json = JsonConvert.SerializeObject(dataSet, Formatting.Indented);
-        //Response.ContentType = "application/json; charset=utf-8";
-        //Response.Write(json);
-        orderStatus = json.ToString();
+        orderStatus = json;
+        log.Info("orderStatus: " + orderStatus );
     }
     
     return orderID == null
         ? req.CreateResponse(HttpStatusCode.BadRequest, "Please pass an orderID in the request body")
-        : req.CreateResponse(HttpStatusCode.OK, "Order ID: " + orderID + " Status: " + orderStatus);
+        : req.CreateResponse(HttpStatusCode.OK, orderStatus);
 }
 ```
 
-One suggestion we've is perhaps the Azure Function can have a friendly user interface to download the nuget package as currently the way to find and specify the nuget package in the project.json file is too manual. In additon, if there's Dynamic CRM buitl-in connector on Azure function equivalent with [**CrmServiceClient**](https://msdn.microsoft.com/en-us/library/dn688177.aspx_would will make its much easier.
+One suggestion we've is perhaps the Azure Function can have a friendly user interface to download the nuget package as currently the way to find the nuget package and add to the project.json file is too manual. In additon, if there's Dynamic CRM buitl-in connector on Azure function equivalent with [**CrmServiceClient**](https://msdn.microsoft.com/en-us/library/dn688177.aspx_would will make its much easier.
 
 ![screen shoot of the Bot in getting the order status successfulyl from CRM ] ({{site.baseurl}}/images/CoreMinderImages/xxxxxxxxxxxxxxxxxxxxxxxxx.JPG}})
 

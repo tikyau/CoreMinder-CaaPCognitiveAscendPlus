@@ -1,0 +1,12 @@
+{
+ "frameworks": {
+   "net46":{
+     "dependencies": {
+        "Microsoft.CrmSdk.CoreAssemblies": "8.2.0.1",
+        "Microsoft.CrmSdk.Deployment": "8.2.0.1",
+        "Microsoft.CrmSdk.Workflow": "8.2.0.1",
+        "Microsoft.CrmSdk.XrmTooling.CoreAssembly": "8.2.0.1"
+     }
+   }
+ }
+}

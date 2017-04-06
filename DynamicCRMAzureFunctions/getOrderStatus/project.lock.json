@@ -1,0 +1,205 @@
+{
+  "version": 2,
+  "targets": {
+    ".NETFramework,Version=v4.6": {
+      "Microsoft.CrmSdk.CoreAssemblies/8.2.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel": "6.1.7600.16394"
+        },
+        "frameworkAssemblies": [
+          "System.Core",
+          "System.DirectoryServices",
+          "System.DirectoryServices.AccountManagement",
+          "System.IdentityModel",
+          "System.Runtime.Serialization",
+          "System.Security",
+          "System.ServiceModel",
+          "System.ServiceModel.Web",
+          "System.Web",
+          "System.Xml",
+          "System.Xml.Linq"
+        ],
+        "compile": {
+          "lib/net45/Microsoft.Crm.Sdk.Proxy.dll": {},
+          "lib/net45/Microsoft.Xrm.Sdk.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Crm.Sdk.Proxy.dll": {},
+          "lib/net45/Microsoft.Xrm.Sdk.dll": {}
+        }
+      },
+      "Microsoft.CrmSdk.Deployment/8.2.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CrmSdk.CoreAssemblies": "8.2.0"
+        },
+        "frameworkAssemblies": [
+          "System.Web.Services"
+        ],
+        "compile": {
+          "lib/net45/Microsoft.Xrm.Sdk.Deployment.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Xrm.Sdk.Deployment.dll": {}
+        }
+      },
+      "Microsoft.CrmSdk.Workflow/8.2.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CrmSdk.CoreAssemblies": "8.2.0"
+        },
+        "frameworkAssemblies": [
+          "PresentationFramework",
+          "System.Activities",
+          "System.Activities.Presentation",
+          "System.Workflow.Activities",
+          "System.Workflow.ComponentModel",
+          "System.Workflow.Runtime"
+        ],
+        "compile": {
+          "lib/net45/Microsoft.Xrm.Sdk.Workflow.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Xrm.Sdk.Workflow.dll": {}
+        }
+      },
+      "Microsoft.CrmSdk.XrmTooling.CoreAssembly/8.2.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CrmSdk.CoreAssemblies": "8.2.0",
+          "Microsoft.CrmSdk.Deployment": "8.2.0",
+          "Microsoft.CrmSdk.Workflow": "8.2.0",
+          "Microsoft.IdentityModel.Clients.ActiveDirectory": "2.22.302111727"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Xrm.Tooling.Connector.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Xrm.Tooling.Connector.dll": {}
+        }
+      },
+      "Microsoft.IdentityModel/6.1.7600.16394": {
+        "type": "package",
+        "compile": {
+          "lib/net35/Microsoft.IdentityModel.dll": {}
+        },
+        "runtime": {
+          "lib/net35/Microsoft.IdentityModel.dll": {}
+        }
+      },
+      "Microsoft.IdentityModel.Clients.ActiveDirectory/2.22.302111727": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll": {},
+          "lib/net45/Microsoft.IdentityModel.Clients.ActiveDirectory.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll": {},
+          "lib/net45/Microsoft.IdentityModel.Clients.ActiveDirectory.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Microsoft.CrmSdk.CoreAssemblies/8.2.0.1": {
+      "sha512": "P//8DNpHLKFkV7FFZNMScnA4mXEy5DYppZSdBZQxLrg/t3zCEC8HbGYhh1eSbYGle1pIHMBpqKWXWmFUMA7W/w==",
+      "type": "package",
+      "path": "microsoft.crmsdk.coreassemblies/8.2.0.1",
+      "files": [
+        "lib/net45/LicenseTerms.docx",
+        "lib/net45/Microsoft.Crm.Sdk.Proxy.dll",
+        "lib/net45/Microsoft.Crm.Sdk.Proxy.xml",
+        "lib/net45/Microsoft.Xrm.Sdk.dll",
+        "lib/net45/Microsoft.Xrm.Sdk.xml",
+        "lib/net45/Other Redistributable.txt",
+        "lib/net45/Third Party Notices for Dynamics 365 SDK.docx",
+        "microsoft.crmsdk.coreassemblies.8.2.0.1.nupkg.sha512",
+        "microsoft.crmsdk.coreassemblies.nuspec"
+      ]
+    },
+    "Microsoft.CrmSdk.Deployment/8.2.0.1": {
+      "sha512": "C3I5ofubFSEpJh69DU3YDOiWDuzGGta+GgGTLtHQTPZ1Ym1T92ETU9G8vuCtCp3IPxmXcRU5vrZCbrlT5XWQeg==",
+      "type": "package",
+      "path": "microsoft.crmsdk.deployment/8.2.0.1",
+      "files": [
+        "lib/net45/LicenseTerms.docx",
+        "lib/net45/Microsoft.Xrm.Sdk.Deployment.dll",
+        "lib/net45/Microsoft.Xrm.Sdk.Deployment.xml",
+        "lib/net45/Other Redistributable.txt",
+        "lib/net45/Third Party Notices for Dynamics 365 SDK.docx",
+        "microsoft.crmsdk.deployment.8.2.0.1.nupkg.sha512",
+        "microsoft.crmsdk.deployment.nuspec"
+      ]
+    },
+    "Microsoft.CrmSdk.Workflow/8.2.0.1": {
+      "sha512": "j+F1NGHNR7f6USHrm7JmpEhhVLGZaDmT6vGOjIuevl4umS4GnVkvPuDjOoZBqwi6gPILDR8/KmP06igQW4FiIw==",
+      "type": "package",
+      "path": "microsoft.crmsdk.workflow/8.2.0.1",
+      "files": [
+        "lib/net45/LicenseTerms.docx",
+        "lib/net45/Microsoft.Xrm.Sdk.Workflow.dll",
+        "lib/net45/Microsoft.Xrm.Sdk.Workflow.xml",
+        "lib/net45/Other Redistributable.txt",
+        "lib/net45/Third Party Notices for Dynamics 365 SDK.docx",
+        "microsoft.crmsdk.workflow.8.2.0.1.nupkg.sha512",
+        "microsoft.crmsdk.workflow.nuspec"
+      ]
+    },
+    "Microsoft.CrmSdk.XrmTooling.CoreAssembly/8.2.0.1": {
+      "sha512": "+vwNWxsNNAG40x+e5B/W7qI4NCfTMYCjFqFjOVPBeGpRaf330PUplSBSk295QLRNUJz9FhypPLRFUeLuN8IFXw==",
+      "type": "package",
+      "path": "microsoft.crmsdk.xrmtooling.coreassembly/8.2.0.1",
+      "files": [
+        "lib/net45/Microsoft.Xrm.Tooling.Connector.dll",
+        "lib/net45/Microsoft.Xrm.Tooling.Connector.xml",
+        "lib/net45/Other Redistributable.txt",
+        "lib/net45/Third Party Notices for Dynamics 365 SDK.docx",
+        "microsoft.crmsdk.xrmtooling.coreassembly.8.2.0.1.nupkg.sha512",
+        "microsoft.crmsdk.xrmtooling.coreassembly.nuspec"
+      ]
+    },
+    "Microsoft.IdentityModel/6.1.7600.16394": {
+      "sha512": "qsst2HALUxXdDVmOEk6GJ8U7LNbrQIpIiPesdD+k99TuRc5zy+J4zK4fNpiX+hiMd4cCGoY9WIT3f021Syocdw==",
+      "type": "package",
+      "path": "microsoft.identitymodel/6.1.7600.16394",
+      "files": [
+        "lib/net35/Microsoft.IdentityModel.dll",
+        "microsoft.identitymodel.6.1.7600.16394.nupkg.sha512",
+        "microsoft.identitymodel.nuspec"
+      ]
+    },
+    "Microsoft.IdentityModel.Clients.ActiveDirectory/2.22.302111727": {
+      "sha512": "mDOzGImSD32AD7JIqLBwFFfkRbTPybSyFILn+zKgPFAWJCw88/EkGLijnJFv+BJbE/wvYDmV7dcLuhZ8zi6n3Q==",
+      "type": "package",
+      "path": "microsoft.identitymodel.clients.activedirectory/2.22.302111727",
+      "files": [
+        "lib/net45/Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll",
+        "lib/net45/Microsoft.IdentityModel.Clients.ActiveDirectory.XML",
+        "lib/net45/Microsoft.IdentityModel.Clients.ActiveDirectory.dll",
+        "lib/netcore45/Microsoft.IdentityModel.Clients.ActiveDirectory.XML",
+        "lib/netcore45/Microsoft.IdentityModel.Clients.ActiveDirectory.winmd",
+        "lib/wp/Microsoft.IdentityModel.Clients.ActiveDirectory.XML",
+        "lib/wp/Microsoft.IdentityModel.Clients.ActiveDirectory.dll",
+        "lib/wpa/Microsoft.IdentityModel.Clients.ActiveDirectory.XML",
+        "lib/wpa/Microsoft.IdentityModel.Clients.ActiveDirectory.winmd",
+        "microsoft.identitymodel.clients.activedirectory.2.22.302111727.nupkg.sha512",
+        "microsoft.identitymodel.clients.activedirectory.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "": [],
+    ".NETFramework,Version=v4.6": [
+      "Microsoft.CrmSdk.CoreAssemblies >= 8.2.0.1",
+      "Microsoft.CrmSdk.Deployment >= 8.2.0.1",
+      "Microsoft.CrmSdk.Workflow >= 8.2.0.1",
+      "Microsoft.CrmSdk.XrmTooling.CoreAssembly >= 8.2.0.1"
+    ]
+  },
+  "tools": {},
+  "projectFileToolGroups": {},
+  "packageFolders": {
+    "D:\\home\\data\\Functions\\packages\\nuget": {}
+  }
+}
