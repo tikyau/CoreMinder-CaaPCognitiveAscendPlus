@@ -24,6 +24,8 @@ namespace ECommerceStoreBot
     [LuisModel("00ad773e-2078-4b60-8e73-94aed34ee616", "f5a1c2fc5ea0407ba30aed8e2e27187c")]
     public class CustomerDialog : LuisDialog<object>
     {
+        public string UserEmail { get; private set; }
+
         //override the StartAsync and make this to the root of the dialog
         public override async Task StartAsync(IDialogContext context)
         {
@@ -132,6 +134,36 @@ namespace ECommerceStoreBot
                 message1.Text = "Cannot find order";
                 await context.PostAsync(message1);
             }
+        }
+
+        [LuisIntent("ReportShippingProblems")]
+        public async Task ReportShippingProblems(IDialogContext context, LuisResult result)
+        {
+            Debug.WriteLine(context.UserData.Get<string>("userMessage"));
+
+            Debug.WriteLine("Recording to CRM.......");
+            new PromptDialog.PromptString("Please kindly provide us your feedback", "Please enter a correct feedback", attempts: 3);
+            string baseUrl = "https://coremindercrmazfn.azurewebsites.net/api/caseSubmit?code=AQbsQ9L7OH42Uj3boEcsjpHqJKV6mCbseK1RD1NS56CoCFrGz98EFw==";
+            string userID = context.UserData.Get<string>("userId");
+            string description = context.UserData.Get<string>("userMessage");
+            var request = (HttpWebRequest)WebRequest.Create(baseUrl);
+            //change to json format
+            request.ContentType = "application/json";
+            request.Method = "POST";
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                string json = new JavaScriptSerializer().Serialize(new
+                {
+                    userID = userID,
+                    userDescription = description
+                });
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+            var response = (HttpWebResponse)request.GetResponse();
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            await context.PostAsync("Feedback Submitted");
         }
 
         [LuisIntent("Help")]

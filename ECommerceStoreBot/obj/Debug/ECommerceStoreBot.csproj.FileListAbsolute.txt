@@ -165,3 +165,44 @@ C:\Github-MyWork\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\ru\Mic
 C:\Github-MyWork\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\zh-hans\Microsoft.Bot.Builder.resources.dll
 C:\Github-MyWork\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\obj\Debug\Bot Application1.dll
 C:\Github-MyWork\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\obj\Debug\Bot Application1.pdb
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Bot Application1.dll.config
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Bot Application1.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Bot Application1.pdb
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Autofac.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Chronic.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.Bot.Builder.Autofac.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.Bot.Builder.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.Bot.Connector.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.IdentityModel.Protocol.Extensions.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.Rest.ClientRuntime.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.WindowsAzure.Configuration.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Newtonsoft.Json.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\System.Net.Http.Formatting.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\System.Web.Http.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\System.Web.Http.WebHost.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Autofac.xml
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.Bot.Builder.xml
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.Bot.Builder.Autofac.xml
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.Bot.Connector.xml
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.IdentityModel.Protocol.Extensions.pdb
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.IdentityModel.Protocol.Extensions.xml
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Microsoft.WindowsAzure.Configuration.xml
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\Newtonsoft.Json.xml
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\System.IdentityModel.Tokens.Jwt.pdb
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\System.Net.Http.Formatting.xml
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\System.Web.Http.xml
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\System.Web.Http.WebHost.xml
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\ar\Microsoft.Bot.Builder.resources.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\cs\Microsoft.Bot.Builder.resources.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\de-dE\Microsoft.Bot.Builder.resources.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\en\Microsoft.Bot.Builder.resources.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\es\Microsoft.Bot.Builder.resources.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\fa\Microsoft.Bot.Builder.resources.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\fr\Microsoft.Bot.Builder.resources.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\ja\Microsoft.Bot.Builder.resources.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\ru\Microsoft.Bot.Builder.resources.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\bin\zh-hans\Microsoft.Bot.Builder.resources.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\obj\Debug\Bot Application1.dll
+C:\Users\tiyau\Documents\GitHub\CoreMinder-CaaPCognitiveAscendPlus\ECommerceStoreBot\obj\Debug\Bot Application1.pdb
