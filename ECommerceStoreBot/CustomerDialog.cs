@@ -31,19 +31,17 @@ namespace ECommerceStoreBot
         {
             //read the userData from context
             Debug.WriteLine("Channel: " + context.Activity.ChannelId + "\nUserID: " + context.UserData.Get<string>("userId") + "\nuserName: " + context.UserData.Get<string>("userName") + " \nuserMessage: " + context.UserData.Get<string>("userMessage"));
-          
-            //1st Bot message to user
             var welcomeMessage = context.MakeMessage();
-            welcomeMessage.Text = context.UserData.Get<string>("userName") + " May I help you? \n\r 1. Raise an enquiry ticket \n\r 2. Check Order Status";
+            welcomeMessage.Text = "Hello " + context.UserData.Get<string>("userName") + " How may I help you....";
             await context.PostAsync(welcomeMessage);
-            context.Wait((this.MessageReceived));
+            context.Wait(this.MessageReceived);
         }
 
         [LuisIntent("OrderEnquiry")]
         //public async Task OrderEnquiry(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult result)
         public async Task OrderEnquiry(IDialogContext context, LuisResult result)
         {
-            Debug.WriteLine(context.UserData.Get<string>("userMessage"));
+            //Debug.WriteLine(context.UserData.Get<string>("userMessage"));
 
             //Prompt for missing order number  
             while (result.Entities.Count < 1) {
@@ -136,16 +134,23 @@ namespace ECommerceStoreBot
             }
         }
 
+
         [LuisIntent("ReportShippingProblems")]
         public async Task ReportShippingProblems(IDialogContext context, LuisResult result)
         {
-            Debug.WriteLine(context.UserData.Get<string>("userMessage"));
-
-            Debug.WriteLine("Recording to CRM.......");
-            new PromptDialog.PromptString("Please kindly provide us your feedback", "Please enter a correct feedback", attempts: 3);
-            string baseUrl = "https://coremindercrmazfn.azurewebsites.net/api/caseSubmit?code=AQbsQ9L7OH42Uj3boEcsjpHqJKV6mCbseK1RD1NS56CoCFrGz98EFw==";
             string userID = context.UserData.Get<string>("userId");
-            string description = context.UserData.Get<string>("userMessage");
+            string problemDescription = null;
+ 
+            new PromptDialog.PromptString("Please provide the description:?", "Please try again", attempts: 3);
+            context.Wait(MessageReceived);
+            //!!!!!Contect wait not wait for user input??????????
+            problemDescription = context.UserData.Get<string>("userMessage");
+            Debug.WriteLine("userID " + userID + "\nProblem Description: "  + problemDescription);
+            Debug.WriteLine("Recording to CRM.......");
+
+            string baseUrl = "https://coremindercrmazfn.azurewebsites.net/api/caseSubmit?code=AQbsQ9L7OH42Uj3boEcsjpHqJKV6mCbseK1RD1NS56CoCFrGz98EFw==";
+            //string problemDescription = context.UserData.Get<string>("userMessage");
+            
             var request = (HttpWebRequest)WebRequest.Create(baseUrl);
             //change to json format
             request.ContentType = "application/json";
@@ -155,7 +160,7 @@ namespace ECommerceStoreBot
                 string json = new JavaScriptSerializer().Serialize(new
                 {
                     userID = userID,
-                    userDescription = description
+                    userDescription = problemDescription
                 });
                 streamWriter.Write(json);
                 streamWriter.Flush();
@@ -163,13 +168,19 @@ namespace ECommerceStoreBot
             }
             var response = (HttpWebResponse)request.GetResponse();
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            await context.PostAsync("Feedback Submitted");
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                await context.PostAsync("Case Submitted, our Agent will contact you shortly");
+            } else
+            {
+                await context.PostAsync("Case Submitted failed, Invalid user profile or info, please submit again");
+            }
         }
 
         [LuisIntent("Help")]
         public async Task Help(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync("Hi! Try asking me things like 'check order status' or 'item checking'");
+            await context.PostAsync("Try asking me things like 'check order status' or 'Raise an enquiry ticket (E.g. report shipping problem)'");
 
             context.Wait(this.MessageReceived);
         }

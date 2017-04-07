@@ -13,9 +13,6 @@ using System.Web;
 namespace ECommerceStoreBot
 {
 
-
-
-
     [BotAuthentication]
     public class MessagesController : ApiController
     {
@@ -28,7 +25,7 @@ namespace ECommerceStoreBot
         public static string UserEmail { get; set; }
         public static string password { get; set; }
 
-
+     
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
             //persist botstate here..https://docs.botframework.com/en-us/csharp/builder/sdkreference/stateapi.html

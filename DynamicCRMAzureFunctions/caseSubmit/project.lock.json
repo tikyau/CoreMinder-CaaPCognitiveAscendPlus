@@ -289,7 +289,6 @@
       "Microsoft.CrmSdk.Deployment >= 8.2.0.2",
       "Microsoft.CrmSdk.Extensions >= 7.1.0.1",
       "Microsoft.CrmSdk.XrmTooling.CoreAssembly >= 8.2.0.2",
-      "Microsoft.IdentityModel.Clients.ActiveDirectory >= 2.22.0",
       "Newtonsoft.Json >= 10.0.2"
     ]
   },

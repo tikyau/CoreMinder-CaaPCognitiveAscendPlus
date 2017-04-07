@@ -8,10 +8,10 @@
 
         "Microsoft.CrmSdk.XrmTooling.CoreAssembly": "8.2.0.2",
         "Microsoft.CrmSdk.Deployment" : "8.2.0.2",
-        //"Microsoft.CrmSdk.XrmTooling.WpfControls" : "8.2.0.4",
-        "Microsoft.IdentityModel.Clients.ActiveDirectory": "2.22.0.0",
 
-        "Newtonsoft.Json" : "10.0.2 ",
+        //"Microsoft.IdentityModel.Clients.ActiveDirectory": "2.22.0.0",
+
+        "Newtonsoft.Json" : "10.0.2",
 
      }
    }

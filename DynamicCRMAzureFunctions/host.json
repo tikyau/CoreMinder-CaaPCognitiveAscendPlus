@@ -1,1 +1,10 @@
-{}
+{ 
+	"defaultRoute": {
+        // Defines the path for a custom website which will respond to requests to the default route.
+        // Requires app setting "AzureWebJobsDefaultRoute" value "customPage" to be processed. 
+        "customWebsitePath": "coremindercrmazfn.azurewebsites.net/api/",
+        // Defines the Azure Function which will respond to requests to the default route.
+        // Requires app setting "AzureWebJobsDefaultRoute" value "function" to be processed. 
+        "functionName": "getOrderStatus"
+    }
+}
