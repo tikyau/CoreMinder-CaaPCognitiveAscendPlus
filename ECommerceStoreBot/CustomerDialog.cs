@@ -14,6 +14,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.Services.Description;
+using static Microsoft.Bot.Builder.Dialogs.PromptDialog;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ECommerceStoreBot
@@ -24,6 +26,7 @@ namespace ECommerceStoreBot
     [LuisModel("00ad773e-2078-4b60-8e73-94aed34ee616", "f5a1c2fc5ea0407ba30aed8e2e27187c")]
     public class CustomerDialog : LuisDialog<object>
     {
+
         public string UserEmail { get; private set; }
 
         //override the StartAsync and make this to the root of the dialog
@@ -134,23 +137,34 @@ namespace ECommerceStoreBot
             }
         }
 
+        //***** Report Shiiping Problem ********
+         private string newProblemDescription;
 
-        [LuisIntent("ReportShippingProblems")]
-        public async Task ReportShippingProblems(IDialogContext context, LuisResult result)
+        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
+            var dialog = new PromptDialog.PromptString("Please provide your description: ", "please try again", 2);
+            Debug.WriteLine("0 ");
+            context.Call(dialog, ResumeAfterPrompt);
+        }
+
+
+        private async Task ResumeAfterPrompt(IDialogContext context, IAwaitable<string> result)
+        {
+            Debug.WriteLine("1 ");
+            var parameter = await result;
+            Debug.WriteLine("2 ");
+            newProblemDescription = parameter;
+            Debug.WriteLine("newProblemDescription: " + newProblemDescription);
+            //context.Done(parameter);
+
+            string problemDescription = newProblemDescription;
             string userID = context.UserData.Get<string>("userId");
-            string problemDescription = null;
- 
-            new PromptDialog.PromptString("Please provide the description:?", "Please try again", attempts: 3);
-            context.Wait(MessageReceived);
-            //!!!!!Contect wait not wait for user input??????????
-            problemDescription = context.UserData.Get<string>("userMessage");
-            Debug.WriteLine("userID " + userID + "\nProblem Description: "  + problemDescription);
+            Debug.WriteLine("userID " + userID + "\nProblem Description: " + problemDescription);
+            await context.PostAsync("creating case in CRM with description: " + problemDescription);
             Debug.WriteLine("Recording to CRM.......");
 
+            //Fill the CRM logic here instead
             string baseUrl = "https://coremindercrmazfn.azurewebsites.net/api/caseSubmit?code=AQbsQ9L7OH42Uj3boEcsjpHqJKV6mCbseK1RD1NS56CoCFrGz98EFw==";
-            //string problemDescription = context.UserData.Get<string>("userMessage");
-            
             var request = (HttpWebRequest)WebRequest.Create(baseUrl);
             //change to json format
             request.ContentType = "application/json";
@@ -162,6 +176,8 @@ namespace ECommerceStoreBot
                     userID = userID,
                     userDescription = problemDescription
                 });
+                //now should clear the problemDescription for next use
+                newProblemDescription = null;
                 streamWriter.Write(json);
                 streamWriter.Flush();
                 streamWriter.Close();
@@ -171,10 +187,33 @@ namespace ECommerceStoreBot
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 await context.PostAsync("Case Submitted, our Agent will contact you shortly");
-            } else
+            }
+            else
             {
                 await context.PostAsync("Case Submitted failed, Invalid user profile or info, please submit again");
             }
+        }
+
+        [LuisIntent("ReportShippingProblems")]
+        public async Task ReportShippingProblems(IDialogContext context, LuisResult result)
+        {
+            ////string userID = context.UserData.Get<string>("userId");
+
+            //get the user description
+            if (result.Entities.Count == 0)
+            {
+                //option 1:
+                ///PromptDialog.Text(context, MessageReceivedAsync, "I need some more info", "please", 0);
+                ///
+                //option 2: Seem below line need to be called in an async method in order not to get await result into null!?
+                var dialog = new PromptDialog.PromptString("Please provide your description: ", "please try again", 2);
+                context.Call(dialog, ResumeAfterPrompt);
+            }
+            else
+            {
+                context.Wait(MessageReceived);
+            }
+     
         }
 
         [LuisIntent("Help")]
