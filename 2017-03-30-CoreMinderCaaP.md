@@ -303,6 +303,7 @@ Since the eCommercise site sample taken from the CoreMinder client has some over
 So far we've enhanced the ecommerce portal with new Bot channel created and to allow CoreMinder client to up or cross sell more items from the site, we're able to get some real data from their client to generate an training mdoel for item recommendation useing the Cognitive Service's recommendation API portal to create including the shopping cart feature (add, purchase, remove).  Its make more sense to embeded its in to the website instead of the bot
 
 ![screen shoot of product recommendation] ({{site.baseurl}}/images/CoreMinderImages/ProdRecommendation.JPG}})
+![screen shoot of product recommendation] ({{site.baseurl}}/images/CoreMinderImages/ML_AzureSiteView.JPG}})
 
 
 .......next in improving the ML using custom based to include time range as feature to refelct latest custoemr behaivor
