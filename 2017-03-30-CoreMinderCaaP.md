@@ -1,5 +1,4 @@
-﻿
----
+﻿---
 layout: post
 title:  "Extending CRM solution on E-commerce website with Bot Framework and Cognitive Services"
 author: "William Dam, Delon Yau"
@@ -16,11 +15,11 @@ geolocation: Hong Kong
 permalink: /<page-title>.html Use this section to set a custom URL for your page. The value set in this setting will be added to the base URL. For example if you set "/mycustomurl.html", your URL will be "https://microsoft.github.io/techcasestudies/mycustomurl.html"
 ---
  
- - **Solution overview:** 
+**Solution overview:** 
  
  [**CoreMinder Chat management**](http://www.coreminder.com/chat.html) is an add-on solution which integrates Dynamics CRM and social application (e.g. Facebook, WeChat), so that its allow human sale agent able to follow up with customer enquiries. With the rapid growth of their clients’ business, many of their clients' Sale Agents are heavily impacted with repeated questions such as order status and shipping enquires raised from end customers which can up to 5K (social message + Email) enquires per day.  Most of these queries can be automated/handled by Bot service instead. So, we work with CoreMinder together to deliver a solution based on one of their customer (specialized in AirSoft and Wargame equipment) E-commerce test portal, using Microsoft Bot Framework and Cognitive Services to reduce the Agent workload and provide 24x7 instant customer respond so that they can focus more qualify sale lead enquiry
 
- - **Key technologies used:**
+**Key technologies used:**
 
     - [**Bot Framework**](https://dev.botframework.com/), [**QnAMaker**](https://qnamaker.ai/)
     - [**Cognitive Services**](https://www.microsoft.com/cognitive-services): [**LUIS**](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
@@ -28,7 +27,7 @@ permalink: /<page-title>.html Use this section to set a custom URL for your page
     - [**Dynamic CRM**](https://www.microsoft.com/en-us/dynamics365/home)
     - Client: [**WebChat**](https://github.com/Microsoft/BotFramework-WebChat), [**Skype**](https://www.skype.com/en/)
 
- - **Core team that was involved with the project:**
+**Core team that was involved with the project:**
 
     - William Dam – Microsoft, Technical Evangelist
     - Delon Yau – Microsoft, Technical Evangelist
@@ -57,19 +56,19 @@ We discussed with Coreminder technical team and proposed that we can build a Cha
 
 ![Here's the architecture diagram]({{site.baseurl}}/images/CoreMinderImages/HighLevelArchDigitalFormat.JPG)
 
-Existing [**CoreMinder Chat Management**](http://www.coreminder.com/chat.html) provide Sale Agent a web user interface to monitor and follow up customer enquires thru an CRM Web Gateway connecting to a backend Dynamic CRM, both running on premises. (Refer to Existing 1 & 2 above diagram)
+The [**CoreMinder Chat Management**](http://www.coreminder.com/chat.html) provide Sale Agent a web user interface to monitor and follow up customer enquires thru an CRM Web Gateway connecting to a backend Dynamic CRM, both running on premises. (Refer to Existing 1 & 2 above diagram)
 
 To preserve their existing close customer engagement experience, the chat bot will use LUIS for natural language experience. And we'll also use QnAmaker for most common FAQ handling.  For this solution, we'll focus on the Webchat and can be extended to other Social Channels e.g. Facebook Messenger etc. which offer from the Bot Framework.  When user like to raise a query, they can use the Bot embedded in the E-Commerce site instead of email now, and here're the flow:
 
-Step 0: We can identify the user if they've logon to the E-commerce portal.  
+ - Step 0: We can identify the user if they've logon to the E-commerce portal.  
 
-Step 1 & 2: We'll get into whether the query should handle by CRM or FAQ Bot later. For now, assuming the query is handled by the CRM Bot
+ - Step 1 & 2: We'll get into whether the query should handle by CRM or FAQ Bot later. For now, assuming the query is handled by the CRM Bot
 
-Step 3: LUIS will able to detect the query intent and route to the appropriate CRM Azure Functions which can be a simple order status query or create a new support case to CRM. 
+ -Step 3: LUIS will able to detect the query intent and route to the appropriate CRM Azure Functions which can be a simple order status query or create a new support case to CRM. 
 
-Step 4: We will need to migrate their existing CRM Web API that using Dynamic CRM's low-level interaction and wrapper methods running on premises that handle the CRM communication for the Bot/CRM connection to Azure Function.  
+ -Step 4: We will need to migrate their existing CRM Web API that using Dynamic CRM's low-level interaction and wrapper methods running on premises that handle the CRM communication for the Bot/CRM connection to Azure Function.  
 
-Step 5: If the case is CRM Bot creating a new support case from end user, the Sale Agent will then handle the new case as is existing.
+ -Step 5: If the case is CRM Bot creating a new support case from end user, the Sale Agent will then handle the new case as is existing.
 
 
 Technical Delivery
