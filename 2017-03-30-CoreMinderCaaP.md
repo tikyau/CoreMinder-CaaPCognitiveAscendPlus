@@ -21,7 +21,7 @@ permalink: /<page-title>.html Use this section to set a custom URL for your page
 
 **Key technologies used:**
 
-- [**Bot Framework**](https://dev.botframework.com/), [**QnAMaker**](https://qnamaker.ai/)
+- [**Bot Framework**](https://dev.botframework.com/), [**QnA Maker**](https://qnamaker.ai/)
 
 - [**Cognitive Services**](https://www.microsoft.com/cognitive-services): [**LUIS**](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
 
@@ -65,7 +65,7 @@ We discussed with Coreminder technical team and proposed that we can build a Cha
 
 The [**CoreMinder Chat Management**](http://www.coreminder.com/chat.html) provide Sale Agent a web user interface to monitor and follow up customer enquires thru an CRM Web Gateway connecting to a backend Dynamic CRM, both running on premises. (Refer to Existing 1 & 2 above diagram)
 
-To preserve their existing close customer engagement experience, the chat bot will use LUIS for natural language experience. And we'll also use QnAmaker for most common FAQ handling.  For this solution, we'll focus on the Webchat and can be extended to other Social Channels e.g. Facebook Messenger etc. which offer from the Bot Framework.  When user like to raise a query, they can use the Bot embedded in the E-Commerce site instead of email now, and here're the flow:
+To preserve their existing close customer engagement experience, the chat bot will use LUIS for natural language experience. And we'll also use QnA Maker for most common FAQ handling.  For this solution, we'll focus on the Webchat and can be extended to other Social Channels e.g. Facebook Messenger etc. which offer from the Bot Framework.  When user like to raise a query, they can use the Bot embedded in the E-Commerce site instead of email now, and here're the flow:
 
  - Step 0: We can identify the user if they've logon to the E-commerce portal.  
 
@@ -93,7 +93,7 @@ Technical Delivery
 We start with defining the LUIS intents and breaking into 3 categories:
  1. Retrieve data from CRM (e.g. order status check)
  2. Create a new case in CRM (e.g. reporting issue, like shipping problem)
- 3. Handling most common FAQ using QnAMaker
+ 3. Handling most common FAQ using QnA Maker
 
 And we 1st discover few of the FAQ have some overlapped of the LUIS intent e.g. order status enquiry.  To avoid the confusion to LUIS, we decide to separate the FAQ from the LUIS bot and embedded in an existing FAQ page instead.
 
@@ -536,23 +536,23 @@ Since CoreMinder CRM backend is capable to assign the Human Agent to follow up t
 
 **FAQ Handling**
 
-As mentioned due to overlapping of this client sample website FAQ and LUIS intent e.g. get order status.  We decide to separate the FAQ that use QnAMaker from the LUIS Bot and renew the FAQ tab with QnAMaker bot embedded.  
+As mentioned due to overlapping of this client sample website FAQ and LUIS intent e.g. get order status.  We decide to separate the FAQ that use QnA Maker from the LUIS Bot and renew the FAQ tab with QnA Maker bot embedded.  
 
-Using the QnAMaker is straight forward as you just need to import the Q&A pair with the following steps
+Using the QnA Maker is straight forward as you just need to import the Q&A pair with the following steps
 
-1. FAQ input: can be URL or document in these format (.tsv, .pdf, .doc, .docx), into the [**QnAMaker portal - Create Service tab**](https://qnamaker.ai/Create), then click the create button at the bottom. Its will automatically generate the knowledge base for you to review it.
+1. FAQ input: can be URL or document in these format (.tsv, .pdf, .doc, .docx), into the [**QnA Maker portal - Create Service tab**](https://qnamaker.ai/Create), then click the create button at the bottom. Its will automatically generate the knowledge base for you to review it.
 
-![Screen shot of FAQ page with QnAMaker ] ({{site.baseurl}}/images/CoreMinderImages/QnA_QnA_Azure.JPG}})
+![Screen shot of FAQ page with QnA Maker ] ({{site.baseurl}}/images/CoreMinderImages/QnA_QnA_Azure.JPG}})
 
 2. Review the Q&A pair and Test it
 
-![Screen shot of test FAQ page with QnAMaker ] ({{site.baseurl}}/images/CoreMinderImages/QnA_Azure_TestEnv.JPG}})
+![Screen shot of test FAQ page with QnA Maker ] ({{site.baseurl}}/images/CoreMinderImages/QnA_Azure_TestEnv.JPG}})
 
 3. Save and Retrain, if there's any additonal alternative pharse to the questions added during testing
 
 4. Publish it and consume
 
-![Screen shot of E-commerce test portal that consume the QnAMaker publish url ] ({{site.baseurl}}/images/CoreMinderImages/QnA_Portal.JPG}})
+![Screen shot of E-commerce test portal that consume the QnA Maker publish url ] ({{site.baseurl}}/images/CoreMinderImages/QnA_Portal.JPG}})
 
 
 
