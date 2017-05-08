@@ -2,7 +2,7 @@
 layout: post
 title:  "Extending CRM solution on E-commerce website with Bot Framework and Cognitive Services"
 author: "William Dam, Delon Yau"
-#author-link: "Add URL for author's Twitter account here"
+author-link: "Add URL for author's Twitter account here"
 #author-image: "{{ site.baseurl }}/images/authors/photo.jpg"
 date:   2017-03-26
 categories: [Bot Framework and Cognitive Services]
@@ -21,18 +21,18 @@ permalink: /<page-title>.html Use this section to set a custom URL for your page
 
 **Key technologies used:**
 
-    - [**Bot Framework**](https://dev.botframework.com/), [**QnAMaker**](https://qnamaker.ai/)
-    - [**Cognitive Services**](https://www.microsoft.com/cognitive-services): [**LUIS**](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
-    - Web service: [**Azure Function**](https://azure.microsoft.com/en-us/services/functions/), [**ASP.Net**](https://www.asp.net/)
-    - [**Dynamic CRM**](https://www.microsoft.com/en-us/dynamics365/home)
-    - Client: [**WebChat**](https://github.com/Microsoft/BotFramework-WebChat), [**Skype**](https://www.skype.com/en/)
+ - [**Bot Framework**](https://dev.botframework.com/), [**QnAMaker**](https://qnamaker.ai/)
+ - [**Cognitive Services**](https://www.microsoft.com/cognitive-services): [**LUIS**](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
+ - Web service: [**Azure Function**](https://azure.microsoft.com/en-us/services/functions/), [**ASP.Net**](https://www.asp.net/)
+ - [**Dynamic CRM**](https://www.microsoft.com/en-us/dynamics365/home)
+ - Client: [**WebChat**](https://github.com/Microsoft/BotFramework-WebChat), [**Skype**](https://www.skype.com/en/)
 
 **Core team that was involved with the project:**
 
-    - William Dam – Microsoft, Technical Evangelist
-    - Delon Yau – Microsoft, Technical Evangelist
-    - John Cheng - CoreMinder, Architect
-    - Tom Mok - CoreMinder, CTO
+ - William Dam – Microsoft, Technical Evangelist
+ - Delon Yau – Microsoft, Technical Evangelist
+ - John Cheng - CoreMinder, Architect
+ - Tom Mok - CoreMinder, CTO
 
 Customer profile
 ---------------- 
@@ -63,12 +63,12 @@ To preserve their existing close customer engagement experience, the chat bot wi
  - Step 0: We can identify the user if they've logon to the E-commerce portal.  
 
  - Step 1 & 2: We'll get into whether the query should handle by CRM or FAQ Bot later. For now, assuming the query is handled by the CRM Bot
-
- -Step 3: LUIS will able to detect the query intent and route to the appropriate CRM Azure Functions which can be a simple order status query or create a new support case to CRM. 
-
- -Step 4: We will need to migrate their existing CRM Web API that using Dynamic CRM's low-level interaction and wrapper methods running on premises that handle the CRM communication for the Bot/CRM connection to Azure Function.  
-
- -Step 5: If the case is CRM Bot creating a new support case from end user, the Sale Agent will then handle the new case as is existing.
+ 
+ - Step 3: LUIS will able to detect the query intent and route to the appropriate CRM Azure Functions which can be a simple order status query or create a new support case to CRM.
+ 
+ - Step 4: We will need to migrate their existing CRM Web API that using Dynamic CRM's low-level interaction and wrapper methods running on premises that handle the CRM communication for the Bot/CRM connection to Azure Function.
+ 
+ - Step 5: If the case is CRM Bot creating a new support case from end user, the Sale Agent will then handle the new case as is existing.
 
 
 Technical Delivery
