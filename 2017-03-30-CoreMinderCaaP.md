@@ -1,92 +1,86 @@
-﻿---
+﻿
+---
 layout: post
-title: "Extending CRM solution on E-commerce website with Bot Framework and Cognitive Services"  
+title:  "Extending CRM solution on E-commerce website with Bot Framework and Cognitive Services"
 author: "William Dam, Delon Yau"
-author-link: "#"
-#author-image: "{{site.baseurl}}/images/authors/photo.jpg"
-date: 2017-03-26
-categories: [CaaP and Cognitive Services]
+#author-link: "Add URL for author's Twitter account here"
+#author-image: "{{ site.baseurl }}/images/authors/photo.jpg"
+date:   2017-03-26
+categories: [Bot Framework and Cognitive Services]
 color: "blue"
 #image: "{{site.baseurl}}/images/CoreMinderImages/logo.png" #should be ~350px tall
 excerpt: Microsoft work with CoreMinder to extend its CRM Ecommerce platform solution with CaaP
 language: English
-verticals: “Retail, Consumer Products & Services”
+verticals: “Retail, Consumer Products & Services” 
+geolocation: Hong Kong
+permalink: /<page-title>.html Use this section to set a custom URL for your page. The value set in this setting will be added to the base URL. For example if you set "/mycustomurl.html", your URL will be "https://microsoft.github.io/techcasestudies/mycustomurl.html"
 ---
+ 
+ - **Solution overview:** 
+ 
+ [**CoreMinder Chat management**](http://www.coreminder.com/chat.html) is an add-on solution which integrates Dynamics CRM and social application (e.g. Facebook, WeChat), so that its allow human sale agent able to follow up with customer enquiries. With the rapid growth of their clients’ business, many of their clients' Sale Agents are heavily impacted with repeated questions such as order status and shipping enquires raised from end customers which can up to 5K (social message + Email) enquires per day.  Most of these queries can be automated/handled by Bot service instead. So, we work with CoreMinder together to deliver a solution based on one of their customer (specialized in AirSoft and Wargame equipment) E-commerce test portal, using Microsoft Bot Framework and Cognitive Services to reduce the Agent workload and provide 24x7 instant customer respond so that they can focus more qualify sale lead enquiry
+
+ - **Key technologies used:**
+
+    - [**Bot Framework**](https://dev.botframework.com/), [**QnAMaker**](https://qnamaker.ai/)
+    - [**Cognitive Services**](https://www.microsoft.com/cognitive-services): [**LUIS**](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
+    - Web service: [**Azure Function**](https://azure.microsoft.com/en-us/services/functions/), [**ASP.Net**](https://www.asp.net/)
+    - [**Dynamic CRM**](https://www.microsoft.com/en-us/dynamics365/home)
+    - Client: [**WebChat**](https://github.com/Microsoft/BotFramework-WebChat), [**Skype**](https://www.skype.com/en/)
+
+ - **Core team that was involved with the project:**
+
+    - William Dam – Microsoft, Technical Evangelist
+    - Delon Yau – Microsoft, Technical Evangelist
+    - John Cheng - CoreMinder, Architect
+    - Tom Mok - CoreMinder, CTO
 
 Customer profile
-----------------
+---------------- 
+ - **Company name:** [**CoreMinder**](http://www.coreminder.com/about.html) 
 
-Company: CoreMinder
----------------------------------
-Location: Hong Kong
--------------------
-Description:
-------------
-[**CoreMinder Chat management**](http://www.coreminder.com/chat.html) is an add-on solution which integrates Dynamics CRM and social application (e.g. Facebook, WeChat), so that its allow human sale agent able to follow up with customer enquiries. With the rapid growth of their clients’ business, many of their clients' Sale Agents are heavily impacted with repeated questions such as order status and shipping enquires raised from end customers which can up to 5K (social message + Email) enquires per day.  Most of these queries can be automated/handled by Bot service instead. So, we work with CoreMinder together to deliver an POC based on one of their customer (specialized in AirSoft and Wargame equipment) E-commerce test portal, using Microsoft Bot Framework and Cognitive Services to reduce the Agent workload and provide 24x7 instant customer respond so that they can focus more qualify sale lead enquiry
+ - **Company description:** CoreMinder is Microsoft HK gold partner in providing Dynamic CRM and O365 enterprise & e-commerce integrated solutions to small and medium size companies.
 
-These are the key technologies that we're using:
-- [**Bot Framework**](https://dev.botframework.com/), [**QnAMaker**](https://qnamaker.ai/)
-- [**Cognitive Services**](https://www.microsoft.com/cognitive-services): [**LUIS**](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
-- Web service: [**Azure Function**](https://azure.microsoft.com/en-us/services/functions/), [**ASP.Net**](https://www.asp.net/)
-- [**Dynamic CRM**](https://www.microsoft.com/en-us/dynamics365/home)
-- Client: [**WebChat**](https://github.com/Microsoft/BotFramework-WebChat), [**Skype**](https://www.skype.com/en/)
+ - **Company Location:** Hong Kong
 
-This is the team that was involved with the project:
--   William Dam – Microsoft, Technical Evangelist
--   Delon Yau – Microsoft, Technical Evangelist
--   John Cheng - CoreMinder, Architect
--   Tom Mok - CoreMinder, CTO
-
-[**CoreMinder**](http://www.coreminder.com/about.html) is Microsoft HK gold partner in providing Dynamic CRM and O365 enterprise & e-commerce integrated solutions to small and medium size companies.
 
 Problem statement:
 --------------------
 
-**Scenario**
-
-Currently CoreMinder Chat Management solution allows retailers' customers to use WebChat to communicate with the individual human sale agent. The CRM system at the back-end will capture all these conversation, and therefore the cases can be followed up closely. This also allows retailers to provide close customers relationship and impacts of losing customers due to sales turnover are also reduced.  But with the growth of the their client business and amount of customer enquires also signaficant increase.  Existing resource/human agent would not able to respond all these enquries with fast turn around time anymore unless adding more resources.
-
-We discussed with Coreminder technical team and proposed that we can build a Chat Bot service to handle majority of the customer queries and able to provide instant respond retrieved from their back end CRM as a human sale agent to reduce impact to their workload.  So that the human agent can focus more qualified sale lead enquiry for bigger business opportunity.
-
-With all these requirements, we consider the following:
-- The Bot can provide the same conversational experience as if talking to human agent for most common FAQ and those repeated questions.
-- If the bot not able to answer, its will allow the customer to raise a ticket to Dynamic CRM directly for Agent to follow up
-- The Bot deployment will need to be directly integrated to their Dynamic CRM (on-premises) or Dynamics 365 (online) in future for 100% cloud deployment. 
-
-So, our propose solution architecture start with the Bot Framework as our building block as it's tightly integrated with Microsoft Cognitive Services, such as LUIS to provide Natural language processing and we can also leverage QnAMaker for most common FAQ handling.
+Currently [**CoreMinder Chat Management**](http://www.coreminder.com/chat.html) solution allows retailers' customers to use WebChat to communicate with the individual human sale agent. The CRM system at the back-end will capture all these conversation, and therefore the cases can be followed up closely. This also allows retailers to provide close customers relationship and impacts of losing customers due to sales turnover are also reduced.  But with the growth of the their client business and amount of customer enquires also signaficant increase.  Existing resource/human agent would not able to respond all these enquries with fast turn around time anymore unless adding more resources.
 
 
-Overview of the solution
+Solution and Steps:
 -------------------------------
-**High Level Architecture**
 
-![Whiteboard Architecture]({{site.baseurl}}/images/CoreMinderImages/HighLevelArchDigitalFormat.JPG)
+We discussed with Coreminder technical team and proposed that we can build a Chat Bot service to handle majority of the customer queries and able to provide instant respond retrieved from their back end CRM as a human sale agent to reduce impact to their workload.  The architecture will start with the Bot Framework as our building block as it's tightly integrated with Microsoft Cognitive Services. And we can also leverage QnA Maker for most common FAQ handling.
 
-**Technical Delivery**
+![Here's the architecture diagram]({{site.baseurl}}/images/CoreMinderImages/HighLevelArchDigitalFormat.JPG)
 
 Existing [**CoreMinder Chat Management**](http://www.coreminder.com/chat.html) provide Sale Agent a web user interface to monitor and follow up customer enquires thru an CRM Web Gateway connecting to a backend Dynamic CRM, both running on premises. (Refer to Existing 1 & 2 above diagram)
 
-To preserve their existing close customer engagement experience, the chat bot will use LUIS for natural language experience. And we'll also use QnAmaker for most common FAQ handling.  For this POC, we'll focus on the Webchat and can be extended to other Social Channels e.g. Facebook Messenger etc. which offer from the Bot Framework.  When user like to raise a query, they can use the Bot embedded in the E-Commerce site instead of email now, and here're the flow:
+To preserve their existing close customer engagement experience, the chat bot will use LUIS for natural language experience. And we'll also use QnAmaker for most common FAQ handling.  For this solution, we'll focus on the Webchat and can be extended to other Social Channels e.g. Facebook Messenger etc. which offer from the Bot Framework.  When user like to raise a query, they can use the Bot embedded in the E-Commerce site instead of email now, and here're the flow:
 
 Step 0: We can identify the user if they've logon to the E-commerce portal.  
 
 Step 1 & 2: We'll get into whether the query should handle by CRM or FAQ Bot later. For now, assuming the query is handled by the CRM Bot
 
-Step 3: LUIS will able to detect the query intent and route to the appropriate CRM Azure Functions which can be a simple order status query or create a new support case to CRM.  
+Step 3: LUIS will able to detect the query intent and route to the appropriate CRM Azure Functions which can be a simple order status query or create a new support case to CRM. 
 
 Step 4: We will need to migrate their existing CRM Web API that using Dynamic CRM's low-level interaction and wrapper methods running on premises that handle the CRM communication for the Bot/CRM connection to Azure Function.  
 
 Step 5: If the case is CRM Bot creating a new support case from end user, the Sale Agent will then handle the new case as is existing.
 
+
+Technical Delivery
+-------------------------------
+
 **Prerequisite**
+
 - [**Visual Studio 2015 update 1**](https://www.visualstudio.com/en-us/news/releasenotes/vs2015-update1-vs) at least & [**Bot Framework plugin**](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.5.8), more info [**here**](http://www.c-sharpcorner.com/article/creating-a-simple-bot-application-using-microsoft-bot-framew/)
 - [**LUIS Key**](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/azureibizasubscription) & [**Spell Check subscription key **](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/manage-keys#create-and-use-external-keyshttps://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/manage-keys#create-and-use-external-keys) from Azure portal
 - Download the [**Bot Framework Emulator**](https://github.com/Microsoft/BotFramework-Emulator)
 - Search and Find those [**CRM nuget packages**](https://www.nuget.org/packages/Microsoft.CrmSdk.CoreAssemblies/) you need
-
-
-Implementation
--------------------------------
 
 **LUIS - Dialog design**
 
@@ -119,6 +113,7 @@ We can now start the Bot implementation using Visual Studio to create a new bot 
 
 Step 1: Creating a new Bot Project from Visual Studio
 
+You may find more detail of how to start withe the 
 ![Sample screen shot of new bot project]({{site.baseurl}}/images/CoreMinderImages/NewBotProject.JPG)
 
 After creating the project you will get some files in solution explorer and lets open the "Web.config" File, and give the AppId and AppSecret keys for your project. If you are running this project locally, then you can give any AppId and AppSecret.   But if you host your bot as web service later on, then you have to register your bot [**here**](https://dev.botframework.com/bots/new). And after registration you will get your bot AppID and AppSecret.
@@ -188,7 +183,7 @@ Then extract the user Email and ID from web handler by adding an ASHX file, Mail
         }
 ```
 
-![Here's the POC website sign on page screen shot]({{site.baseurl}}/images/CoreMinderImages/useLogOn.JPG)
+![Here's the website sign on page illustration screen shot]({{site.baseurl}}/images/CoreMinderImages/useLogOn.JPG)
 
 Step 3: Start the Bot logic from the MessagesController.cs
 
@@ -426,7 +421,8 @@ Finally, these are the correct nuget package & version that make our code work f
    }
 ```
 
-This is the HTTP Trigger Azure Function that use the [**XRM Tool Connector**](https://msdn.microsoft.com/en-us/library/jj602917.aspx#XrmTooling) to connect to Dynamic CRM (on-premises) to retrieve the order status.  And you might have notice I've a line of code to get rid of the SSL trust connection issue right before the CRM connection. This is to allow bypassing the Azure Function policy to make and SSL connection to a self signed cert that being used in the CRM for this POC.  For production, once you change to the real certificate, you won't need that.
+This is the HTTP Trigger Azure Function that use the [**XRM Tool Connector**](https://msdn.microsoft.com/en-us/library/jj602917.aspx#XrmTooling) to connect to Dynamic CRM (on-premises) to retrieve the order status.  And you might have notice I've a line of code to get rid of the SSL trust connection issue right before the CRM connection. This is to allow bypassing the Azure Function policy to make and SSL connection to a self signed cert that being used in this CRM test environment setup.  For production, once you change to the real certificate, you won't need that.
+
 ```
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
@@ -558,7 +554,7 @@ Using the QnAMaker is straight forward as you just need to import the Q&A pair w
 Conclusion
 ----------
 
-This combined effort from Microsoft and CoreMinder has proven on how Microsoft CaaP, Cognitive Services and Azure Function to create and intelligent Bot service with human like conversational experience with easy scaling and integration of their existing on premises Dynamic CRM platform and on cloud in future.
+This combined effort from Microsoft and CoreMinder has proven on how Microsoft Bot Framework, Cognitive Services and Azure Function can create an intelligent Bot service with human like conversational experience that can help sale agent to minimize thier time responding to most common customer enquires.
 
 We've also invited CoreMinder to participate the MSX event with the early prototype and has attracted 12% of sale lead which rank at the 3rd among other solution show case.
 
@@ -570,7 +566,4 @@ CoreMinder is willing to commit to work with us to explore further Machine Learn
 
 Here is a quote from Tom Mok, CoreMinder CTO:
 
-“Our partnership with Microsoft on this CoreMinder CRM BOT project has
-bring us close relationship to work as partner. This new architecture
-significantly add intelligent to the CRM solution, while without significant architecture changes to our CRM platform. It brings performance and cost benefits to our client sale support and will definitively leverage more the Cognitive Service and Machine Learning capabilities in our upcoming client projects. This is what the market needs: solutions that add value while at the same time reducing the complexity of the integration to us
-platform would let us more focusing to deliver more customer value and feature delivery.”
+“Our partnership with Microsoft on this CoreMinder CRM BOT project has bring us close relationship to work as partner. This new architecture significantly add intelligent to the CRM solution, while without significant architecture changes to our CRM platform. It brings performance and cost benefits to our client sale support and will definitively leverage more the Cognitive Service and Machine Learning capabilities in our upcoming client projects. This is what the market needs: solutions that add value while at the same time reducing the complexity of the integration to us platform would let us more focusing to deliver more customer value and feature delivery.”
