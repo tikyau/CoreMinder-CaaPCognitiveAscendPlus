@@ -21,18 +21,18 @@ permalink: /<page-title>.html Use this section to set a custom URL for your page
 
 **Key technologies used:**
 
- - [**Bot Framework**](https://dev.botframework.com/), [**QnAMaker**](https://qnamaker.ai/)
- - [**Cognitive Services**](https://www.microsoft.com/cognitive-services): [**LUIS**](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
- - Web service: [**Azure Function**](https://azure.microsoft.com/en-us/services/functions/), [**ASP.Net**](https://www.asp.net/)
- - [**Dynamic CRM**](https://www.microsoft.com/en-us/dynamics365/home)
- - Client: [**WebChat**](https://github.com/Microsoft/BotFramework-WebChat), [**Skype**](https://www.skype.com/en/)
+[**Bot Framework**](https://dev.botframework.com/), [**QnAMaker**](https://qnamaker.ai/)
+[**Cognitive Services**](https://www.microsoft.com/cognitive-services): [**LUIS**](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
+Web service: [**Azure Function**](https://azure.microsoft.com/en-us/services/functions/), [**ASP.Net**](https://www.asp.net/)
+[**Dynamic CRM**](https://www.microsoft.com/en-us/dynamics365/home)
+Client: [**WebChat**](https://github.com/Microsoft/BotFramework-WebChat), [**Skype**](https://www.skype.com/en/)
 
 **Core team that was involved with the project:**
 
- - William Dam – Microsoft, Technical Evangelist
- - Delon Yau – Microsoft, Technical Evangelist
- - John Cheng - CoreMinder, Architect
- - Tom Mok - CoreMinder, CTO
+William Dam – Microsoft, Technical Evangelist
+Delon Yau – Microsoft, Technical Evangelist
+John Cheng - CoreMinder, Architect
+Tom Mok - CoreMinder, CTO
 
 Customer profile
 ---------------- 
