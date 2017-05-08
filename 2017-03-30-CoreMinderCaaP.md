@@ -119,8 +119,7 @@ We can now start the Bot implementation using Visual Studio to create a new bot 
 
 Step 1: Creating a new Bot Project from Visual Studio
 
-You may find more detail of how to start withe the 
-![Sample screen shot of new bot project]({{site.baseurl}}/images/CoreMinderImages/NewBotProject.JPG)
+You may find more detail of how to get start with bot implementation [**here**](https://docs.botframework.com/en-us/csharp/builder/sdkreference/)
 
 After creating the project you will get some files in solution explorer and lets open the "Web.config" File, and give the AppId and AppSecret keys for your project. If you are running this project locally, then you can give any AppId and AppSecret.   But if you host your bot as web service later on, then you have to register your bot [**here**](https://dev.botframework.com/bots/new). And after registration you will get your bot AppID and AppSecret.
 
