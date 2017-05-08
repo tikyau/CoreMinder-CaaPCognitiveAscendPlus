@@ -10,9 +10,8 @@ color: "blue"
 #image: "{{site.baseurl}}/images/CoreMinderImages/logo.png" #should be ~350px tall
 excerpt: Microsoft work with CoreMinder to extend its CRM Ecommerce platform solution with CaaP
 language: English
-verticals: “Retail, Consumer Products & Services” 
+verticals: Retail, Consumer Products & Services
 geolocation: Hong Kong
-permalink: /<page-title>.html Use this section to set a custom URL for your page. The value set in this setting will be added to the base URL. For example if you set "/mycustomurl.html", your URL will be "https://microsoft.github.io/techcasestudies/mycustomurl.html"
 ---
  
 **Solution overview:** 
